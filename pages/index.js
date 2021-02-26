@@ -1,8 +1,13 @@
+import {Container} from "@material-ui/core";
+import Header from "@/components/Header";
 
 export default function Home() {
   return (
       <>
-          <h1> page </h1>
+          <Header/>
+          <Container>
+              <h1> Home page </h1>
+          </Container>
       </>
   )
 }
