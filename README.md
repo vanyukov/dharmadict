@@ -45,12 +45,11 @@ run
 
 ### Next.js
 [nextjs.org](https://nextjs.org)
-
 ### React.js
 [reactjs.org](https://reactjs.org/)
 
 ### MATERIAL-UI
-[material-ui.com/ru/](https://material-ui.com/ru/)
+[next.material-ui.com/ru/](https://next.material-ui.com/ru/)
 
 ### Material Иконки
 [material-ui.com/ru/components/material-icons/](https://material-ui.com/ru/components/material-icons/)
