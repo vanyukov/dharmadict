@@ -43,11 +43,19 @@ run dev mode
 
 ### Builds the app for production
 
-builds the production application in the .next folder.
+builds the production application
 first-run
 `docker-compose -f docker-compose-build.yml up --build`
 run
 `docker-compose -f docker-compose-build.yml up`
+
+### Generate the app for production
+
+generate the production application
+first-run
+`docker-compose -f docker-compose-generate.yml up --build`
+run
+`docker-compose -f docker-compose-generate.yml up`
 
 ### Runs the built app in production mode
 

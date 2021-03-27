@@ -16,4 +16,4 @@ RUN npm install
 COPY . ./
 
 # start app
-CMD ["next"]
+CMD ["nuxt", "generate"]
