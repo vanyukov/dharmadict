@@ -2,16 +2,30 @@
 
 ## Local
 
-### Starts the development server
+### Install dependencies
 
-<!-- `npm i && next dev` -->
+```bash
+$ npm install
+```
 
-### Builds the app for production
+### Starts the development server with hot reload at localhost:3000
 
-<!-- `npm i && next build` -->
- <!-- builds the production application in the .next folder. -->
+```bash
+$ npm run dev
+```
 
-### Runs the built app in production mode
+### Builds the app for production and launch server
+
+```bash
+$ npm run build
+$ npm run start
+```
+
+### Generate static project
+
+```bash
+$ npm run generate
+```
 
 <!-- After building, the start script starts a Node.js server that supports hybrid
 pages, serving both statically generated and server-side rendered pages, and
@@ -46,3 +60,5 @@ run
 `docker-compose -f docker-compose-start.yml up`
 
 ## Technology Stack
+
+[Nuxt.js docs](https://nuxtjs.org)
