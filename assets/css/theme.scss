@@ -1,0 +1,11 @@
+@import 'variable.scss';
+@import 'vue-material/dist/theme/engine'; // Import the theme engine
+
+@include md-register-theme(
+  'default',
+  (
+    primary: $primary
+  )
+);
+
+@import 'vue-material/dist/theme/all'; // Apply the theme
