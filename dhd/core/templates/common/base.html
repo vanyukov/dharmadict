@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+{% load i18n %}{% load qol %}
+<html lang="{{user.lang.lower}}">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="/static/assets/img/favicon.ico">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/static/vendor/css/bootstrap.min.css">
+  <!--https://bootstrap-datepicker.readthedocs.io/en/latest/index.html-->
+  <link rel="stylesheet" href="/static/vendor/css/bootstrap-datepicker.min.css">
+  <link rel="stylesheet" href="/static/vendor/css/open-iconic-bootstrap.min.css">
+  <link rel="stylesheet" href="/static/assets/css/style.css">
+
+  <!-- JS -->
+  <script src="/static/vendor/js/jquery-3.4.1.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/static/vendor/js/bootstrap.bundle.min.js" type="text/javascript" charset="utf-8"></script>
+  <!-- Edge pain -->
+  <script src="/static/vendor/js/formdata.min.js" type="text/javascript" charset="utf-8"></script>
+  <!--https://bootstrap-datepicker.readthedocs.io/en/latest/index.html-->
+  <script src="/static/vendor/js/bootstrap-datepicker.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/static/vendor/js/bs-custom-file-input.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/static/vendor/js/PNotify.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/static/vendor/js/PNotifyButtons.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/static/vendor/js/PNotifyButtons.js" type="text/javascript" charset="utf-8"></script>
+
+  {% block script_pre %}{% endblock %}
+  <script src="/static/assets/js/app.js" type="text/javascript" charset="utf-8"></script>
+  {% block scripts %}{% endblock %}
+  <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+
+  <header class="header d-print-none">
+  </header>
+
+  <section class="{% block contentClass %}{% endblock %}">
+  {% block content %}{% endblock %}
+  </section>
+
+  <!-- Modal Exit -->
+  <div class="modal fade" id="modalExit" tabindex="-1" role="dialog" aria-labelledby="modalExitLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <p class="h5 modal-title" id="modalExitLabel">
+            {% trans 'Выуверены, что хотите выйти?' %}
+          </p>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {% trans 'Все несохраненные данные могут быть потеряны' %}
+        </div>
+        <div class="modal-footer">
+          <div class="btn-group">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Нет' %}</button>
+            <button type="button" class="btn btn-primary" id="headerExit" onclick="location.href='{% url 'logout' %}?next=/'">{% trans 'Да' %}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% block modals %}{% endblock %}
+
+</body>
+</html>

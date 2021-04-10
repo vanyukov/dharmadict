@@ -1,0 +1,26 @@
+from django.contrib import auth
+from . import views
+
+from django.urls import include, path
+
+app_name = 'core'
+urlpatterns = [
+    path('', views.index, name='index'),
+
+
+    path('page/', views.page, name='page'),
+
+    # Users
+    path('profile/new', views.new_user, name='new_user'),
+    path('profile/', views.user, name='user'),
+    path('profile/change_password', views.change_user_password, name="change_user_password"),
+    path('profile/<int:user_id>', views.edit_user, name='edit_user'),
+    path('profile/<int:user_id>/delete/<operation>', views.delete_user, name="delete_user"),
+
+    path('profiles/paginate', views.paginate_users, name='paginate_users'),
+    path('profiles/export', views.users_export, name='export_users'),
+    path('profiles/import', views.upload_users_file, name='import_users'),
+    path('profiles/import/preview', views.upload_users_preview, name='upload_users_preview'),
+    path('profiles/import/apply', views.upload_users_apply, name='upload_users_apply'),
+
+]

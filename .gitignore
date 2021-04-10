@@ -1,4 +1,17 @@
+#MODIFIEd By Tony Mikhailov
+
+__pycache__
+*.pyc
+.vscode
+*_env
+img
+avatars
+node_modules
+venv
+
 # Created by .ignore support plugin (hsz.mobi)
+
+
 ### Node template
 # Logs
 /logs

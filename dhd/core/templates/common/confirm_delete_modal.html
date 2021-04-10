@@ -1,0 +1,24 @@
+{% load i18n %}
+<div class="modal fade" id="modalConfirm" tabindex="-1" role="dialog" aria-labelledby="modalConfirmLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="h5 modal-title" id="modalConfirmLabel">
+          {% trans 'Вы уверены, что хотите удалить запись?' %}
+        </p>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {% trans 'Восстановление будет возможно только с помощью системного администратора!' %}
+      </div>
+      <div class="modal-footer">
+        <div class="btn-group">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Нет' %}</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" id="confirmYes">{% trans 'Да' %}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
