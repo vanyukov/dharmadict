@@ -112,6 +112,16 @@ def page(request):
         } )
     )
 
+def api_pages(request):
+    result = []
+    pages_qs = active_pages()
+    for r in pages_qs:
+        result.append(r.json())
+    
+    data=json.dumps(result, ensure_ascii=False, indent=2)
+    response = HttpResponse(data, content_type='application/json; charset=utf-8')
+    return response
+
 
 def user(request):
     if not request.user.is_authenticated: return HttpResponseRedirect('/accounts/login')

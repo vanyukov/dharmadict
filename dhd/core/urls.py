@@ -23,4 +23,6 @@ urlpatterns = [
     path('profiles/import/preview', views.upload_users_preview, name='upload_users_preview'),
     path('profiles/import/apply', views.upload_users_apply, name='upload_users_apply'),
 
+    path('api/v1/pages/', views.api_pages, name='api_pages'),
+
 ]

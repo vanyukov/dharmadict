@@ -5,7 +5,7 @@ from django.http.response import HttpResponse, HttpResponseForbidden
 from django.utils.translation import LANGUAGE_SESSION_KEY
 from django.core.paginator import Paginator
 
-from core.models import CustomUser
+from core.models import (CustomUser, Page)
 from django.conf import settings
 
 def json_forbidden(message=None):
@@ -102,20 +102,14 @@ def stats_context(request, extra=None, patient=None):
 def active_users():
     return CustomUser.objects.filter(deleted=False)
 
-def active_patients():
-    return Patient.objects.filter(deleted=False)
+def active_pages():
+    return Page.objects.filter(deleted=False, published=True)
 
-def active_results():
-    return Result.objects.filter(deleted=False)
-
-def active_result_entries():
-    return ResultEntry.objects.prefetch_related('values').filter(deleted=False, result__deleted=False)
-
-def patient_statistics(pk, is_measurement = None):
-    qs = active_result_entries().select_related('result', 'result__user', 'result__patient').filter(result__patient__pk=pk)
-    if is_measurement != None:
-        return qs.filter(is_measurement=is_measurement)
-    return qs
+# def patient_statistics(pk, is_measurement = None):
+#     qs = active_result_entries().select_related('result', 'result__user', 'result__patient').filter(result__patient__pk=pk)
+#     if is_measurement != None:
+#         return qs.filter(is_measurement=is_measurement)
+#     return qs
 
 def fill_user_data(user, data, is_staff, is_self):
     if data["lang"]:

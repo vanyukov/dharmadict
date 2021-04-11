@@ -1,3 +1,9 @@
+import logging
+import datetime
+import json
+from datetime import datetime
+from import_export import resources
+
 from django.db import models
 
 from django.contrib.auth.models import AbstractUser
@@ -35,6 +41,21 @@ class Page(models.Model):
         from django.urls import reverse
         return reverse('core:page', args=[str(self.id)])
 
+    def json(self):
+        res = {
+            'created': str(self.created),
+            'creator': self.creator.pk if self.creator else None,
+            'modified': str(self.modified),
+            'modificator': self.modificator.pk if self.modificator else None,
+            'published': self.published,
+            'deleted': self.deleted,
+            
+            'url': self.url,
+            'title': self.title,
+            'description': self.description,
+            'content': self.content,
+        }
+        
     def __str__(self):
         return ' '.join([
             str(self.title),
