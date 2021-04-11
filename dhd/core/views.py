@@ -116,7 +116,7 @@ def api_pages(request):
     result = []
     pages_qs = active_pages()
     for r in pages_qs:
-        result.append(r.json())
+        result.append(r.json_no_content())
     
     data=json.dumps(result, ensure_ascii=False, indent=2)
     response = HttpResponse(data, content_type='application/json; charset=utf-8')

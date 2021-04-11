@@ -41,6 +41,21 @@ class Page(models.Model):
         from django.urls import reverse
         return reverse('core:page', args=[str(self.id)])
 
+    def json_no_content(self):
+        res = {
+            'created': str(self.created),
+            'creator': self.creator.pk if self.creator else None,
+            'modified': str(self.modified),
+            'modificator': self.modificator.pk if self.modificator else None,
+            'published': self.published,
+            'deleted': self.deleted,
+            
+            'url': self.url,
+            'title': self.title,
+            'description': self.description,
+        }
+        return res
+
     def json(self):
         res = {
             'created': str(self.created),
@@ -55,6 +70,7 @@ class Page(models.Model):
             'description': self.description,
             'content': self.content,
         }
+        return res
         
     def __str__(self):
         return ' '.join([
