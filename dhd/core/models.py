@@ -43,6 +43,7 @@ class Page(models.Model):
 
     def json_no_content(self):
         res = {
+            'id': self.pk,
             'created': str(self.created),
             'creator': self.creator.pk if self.creator else None,
             'modified': str(self.modified),
@@ -58,6 +59,7 @@ class Page(models.Model):
 
     def json(self):
         res = {
+            'id': self.pk,
             'created': str(self.created),
             'creator': self.creator.pk if self.creator else None,
             'modified': str(self.modified),

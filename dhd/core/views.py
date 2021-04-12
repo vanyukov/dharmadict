@@ -2,21 +2,19 @@ import datetime
 import json
 import logging
 import os
+from email import contentmanager
 
-from django.shortcuts import render
-from django.urls import include, path
 from django.http import HttpResponse
 from django.http.response import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render, reverse
-from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
+from django.urls import include, path
 from django.utils.translation import ugettext as _
-
-from .view_helpers import *
+from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 
 from .admin import CustomUserResource
-
-from .forms import (CustomUserCreationForm)
-from .models import (CustomUser)
+from .forms import CustomUserCreationForm
+from .models import CustomUser
+from .view_helpers import *
 
 # Create your views here.
 
@@ -100,17 +98,16 @@ def new_user(request):
         })
     )
 
-def page(request):
-    u = request.user
-    p = request.page
-    return render(
-        request,
-        'page.html',
-        context= common_context(request, {
-            'profile': u,
-            'page': p,
-        } )
-    )
+def api_page(request, page_id):
+    p = get_object_or_404(Page, pk=page_id)
+    data=json.dumps(p.json(), ensure_ascii=False, indent=2)
+    response = HttpResponse(data, content_type='application/json; charset=utf-8')
+    return response
+
+def api_page_content(request, page_id):
+    p = get_object_or_404(Page, pk=page_id)
+    response = HttpResponse(p.content)
+    return response
 
 def api_pages(request):
     result = []
