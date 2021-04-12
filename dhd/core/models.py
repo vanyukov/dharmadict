@@ -32,6 +32,7 @@ class Page(models.Model):
     published = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
 
+    topmenu = models.BooleanField(default=False)
     url = models.CharField(max_length = 200)
     title = models.CharField(max_length=80, blank=True, null=True, default='')
     description = models.CharField(max_length=250, blank=True, null=True, default='')
