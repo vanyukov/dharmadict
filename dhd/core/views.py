@@ -21,7 +21,7 @@ from .models import (CustomUser)
 # Create your views here.
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+    return HttpResponse("Буддийская терминология в русских переводах. Версия 2 – в процессе разработки.")
 
 def delete_user(request, user_id, operation):
     if not request.user.is_authenticated or request.method != "POST" or not request.user.is_staff: return json_forbidden()
