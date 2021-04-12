@@ -73,7 +73,7 @@ class Page(models.Model):
         return res
         
     def __str__(self):
-        return ' '.join([
-            str(self.title),
+        return ' | '.join([
             str(self.url),
+            str(self.title),
         ])
