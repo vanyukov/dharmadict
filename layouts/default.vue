@@ -1,10 +1,6 @@
 <template>
   <div class="page-container">
-    <md-toolbar class="md-primary">
-      <NuxtLink to="/" class="md-title">
-        Главная
-      </NuxtLink>
-    </md-toolbar>
+    <Navbar />
     <md-app>
       <md-app-content>
         <Nuxt />
@@ -18,8 +14,12 @@
   margin-top: 16px;
 }
 .md-app {
-  max-height: 400px;
+  min-height: calc(100vh - 64px);
   border: 1px solid rgba(#000, 0.12);
+}
+
+.nuxt-link-active {
+  color: rgb(201, 201, 201);
 }
 
 // Demo purposes only
@@ -30,5 +30,10 @@
 </style>
 
 <script>
-export default {}
+import Navbar from '@/components/Navbar'
+export default {
+  components: {
+    Navbar,
+  },
+}
 </script>
