@@ -8,7 +8,7 @@
     <NuxtLink
       v-for="item of menu"
       :key="item.id"
-      :to="item.url"
+      :to="'/' + item.url"
       class="md-title"
     >
       {{ item.title }}
