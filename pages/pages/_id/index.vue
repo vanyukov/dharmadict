@@ -1,12 +1,14 @@
 <template>
-  <h1>page</h1>
+  <div>
+    <h1>{{ post.title }}</h1>
+    <md-content v-html="post.content" />
+  </div>
 </template>
 
 <script>
 export default {
   async asyncData({ params, $api }) {
-    console.log(params.id)
-    const post = await $api('v1', `page/${params.id}`)
+    const post = await $api('v1', `page/pages/${params.id}`)
     return { post }
   },
 }
