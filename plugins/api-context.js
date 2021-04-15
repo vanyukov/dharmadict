@@ -6,8 +6,7 @@ export default (context, inject) => {
         params
       )
     } catch (e) {
-      console.error(e)
-      //   throw e
+      throw e
     }
   })
 }

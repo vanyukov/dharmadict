@@ -7,9 +7,16 @@
 
 <script>
 export default {
-  async asyncData({ params, $api }) {
-    const post = await $api('v1', `page/pages/${params.id}`)
-    return { post }
+  async asyncData({ params, $api, error }) {
+    try {
+      const post = await $api('v1', `page/pages/${params.id}`)
+      return { post }
+    } catch (e) {
+      return error({
+        statusCode: 404,
+        message: e.message,
+      })
+    }
   },
 }
 </script>
