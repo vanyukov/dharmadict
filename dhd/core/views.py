@@ -98,6 +98,18 @@ def new_user(request):
         })
     )
 
+def api_page_by_url(request, url):
+    p = Page.objects.get(url=url)
+    data=json.dumps(p.json(), ensure_ascii=False, indent=2)
+    response = HttpResponse(data, content_type='application/json; charset=utf-8')
+    return response
+
+def api_page_by_url_content(request, url):
+    p = Page.objects.get(url=url)
+    # data=json.dumps(p.json(), ensure_ascii=False, indent=2)
+    response = HttpResponse(p.content)
+    return response
+
 def api_page(request, page_id):
     p = get_object_or_404(Page, pk=page_id)
     data=json.dumps(p.json(), ensure_ascii=False, indent=2)

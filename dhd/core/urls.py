@@ -7,7 +7,8 @@ app_name = 'core'
 urlpatterns = [
     path('', views.index, name='index'),
 
-
+    path('api/v1/page/<path:url>', views.api_page_by_url, name='api_page'),
+    path('api/v1/page-content/<path:url>', views.api_page_by_url_content, name='api_page'),
     path('api/v1/page/<int:page_id>', views.api_page, name='api_page'),
     path('api/v1/page/<int:page_id>/content', views.api_page_content, name='api_page_content'),
 
