@@ -1,33 +1,15 @@
 <template>
-  <div class="page-container">
+  <div class="container mx-auto sm:px-6">
     <Navbar />
-    <md-app>
-      <md-app-content>
+    <main>
+      <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <Nuxt />
-      </md-app-content>
-    </md-app>
+      </div>
+    </main>
   </div>
 </template>
 
-<style lang="scss" scoped>
-.md-toolbar + .md-toolbar {
-  margin-top: 16px;
-}
-.md-app {
-  min-height: calc(100vh - 64px);
-  border: 1px solid rgba(#000, 0.12);
-}
-
-.nuxt-link-active {
-  color: rgb(201, 201, 201);
-}
-
-// Demo purposes only
-.md-drawer {
-  width: 230px;
-  max-width: calc(100vw - 125px);
-}
-</style>
+<style lang="scss" scoped></style>
 
 <script>
 import Navbar from '@/components/Navbar'

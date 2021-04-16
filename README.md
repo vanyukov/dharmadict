@@ -69,4 +69,12 @@ run
 
 ## Technology Stack
 
-[Nuxt.js docs](https://nuxtjs.org)
+[Nuxt.js](https://nuxtjs.org)
+
+[axioss](https://axios.nuxtjs.org/)
+
+[tailwindcss](https://tailwindcss.com/)
+
+[tailwindcss.nuxtjs](https://tailwindcss.nuxtjs.org/)
+
+[google-fonts-module](https://github.com/nuxt-community/google-fonts-module)

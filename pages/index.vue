@@ -1,14 +1,12 @@
 <template>
-  <div class="md-layout md-gutter">
-    <div class="md-layout-item md-size-20">
+  <div class="flex space-x-4">
+    <div class="flex-initial">
       <img src="/images/logo.jpeg" alt="logo" />
     </div>
-    <div class="md-layout-item">
-      <h1 class="md-title md-primary">
-        <em>
-          <span>Буддийская терминология</span>
-        </em>
-        <span> в русских переводах</span>
+    <div class="flex-1">
+      <h1 class="text-3xl text-green-500">
+        <strong>Буддийская терминология</strong>
+        <small> в русских переводах</small>
       </h1>
     </div>
   </div>
