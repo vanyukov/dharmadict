@@ -12,13 +12,13 @@
     "@nuxtjs/axios": "^5.13.1",
     "@nuxtjs/proxy": "^2.1.0",
     "@nuxtjs/pwa": "^3.3.5",
-    "core-js": "^3.9.1",
-    "nuxt": "^2.15.3",
+    "core-js": "^3.10.1",
+    "nuxt": "^2.15.4",
     "vue-material": "^1.0.0-beta-15"
   },
   "devDependencies": {
-    "eslint-config-prettier": "^8.1.0",
-    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-config-prettier": "^8.2.0",
+    "eslint-plugin-prettier": "^3.4.0",
     "prettier": "^2.2.1"
   }
 }
