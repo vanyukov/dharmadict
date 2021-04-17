@@ -4,8 +4,28 @@
 @include md-register-theme(
   'default',
   (
-    primary: $primary
+    primary: $primary,
   )
 );
+
+.md-button {
+  min-width: 88px;
+  height: 40px;
+  display: inline-block;
+  border-radius: 2px;
+  transition: 0.3s ease;
+
+  @include md-theme-component() {
+    @include md-theme-property(background, primary);
+    @include md-theme-property(color, text-primary, primary);
+  }
+
+  &.md-accent {
+    @include md-theme-component() {
+      @include md-theme-property(background, accent);
+      @include md-theme-property(color, text-primary, accent);
+    }
+  }
+}
 
 @import 'vue-material/dist/theme/all'; // Apply the theme
