@@ -1,5 +1,13 @@
 # Dharma Dictionary
 
+## .env
+
+create file .env
+
+```
+cp .env.example .env
+```
+
 ## Local
 
 ### Install dependencies
