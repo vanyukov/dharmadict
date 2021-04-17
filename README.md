@@ -1,5 +1,13 @@
 # Dharma Dictionary
 
+## .env
+
+create file .env
+
+```
+cp .env.example .env
+```
+
 ## Local
 
 ### Install dependencies
@@ -27,17 +35,10 @@ $ npm run start
 $ npm run generate
 ```
 
-<!-- After building, the start script starts a Node.js server that supports hybrid
-pages, serving both statically generated and server-side rendered pages, and
-API Routes. -->
-<!-- `npm i && next start` -->
-
 ## Docker
 
 ### Starts the development server
 
-first-run dev mode
-`docker-compose up --build`
 run dev mode
 `docker-compose up`
 
@@ -69,4 +70,12 @@ run
 
 ## Technology Stack
 
-[Nuxt.js docs](https://nuxtjs.org)
+[Nuxt.js](https://nuxtjs.org)
+
+[axioss](https://axios.nuxtjs.org/)
+
+[tailwindcss](https://tailwindcss.com/)
+
+[tailwindcss.nuxtjs](https://tailwindcss.nuxtjs.org/)
+
+[google-fonts-module](https://github.com/nuxt-community/google-fonts-module)
