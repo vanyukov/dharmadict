@@ -115,9 +115,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" scoped>
-.md-progress-spinner {
-  margin: 12px;
-}
-</style>

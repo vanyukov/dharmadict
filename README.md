@@ -27,17 +27,10 @@ $ npm run start
 $ npm run generate
 ```
 
-<!-- After building, the start script starts a Node.js server that supports hybrid
-pages, serving both statically generated and server-side rendered pages, and
-API Routes. -->
-<!-- `npm i && next start` -->
-
 ## Docker
 
 ### Starts the development server
 
-first-run dev mode
-`docker-compose up --build`
 run dev mode
 `docker-compose up`
 
