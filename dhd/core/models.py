@@ -95,7 +95,6 @@ class Term(models.Model):
     sa2ru = models.CharField(max_length = 216)
     sa2en = models.CharField(max_length = 216)
 
-
 class Meaning(models.Model):
     term = models.ForeignKey(Term, on_delete=models.CASCADE, related_name='term')
     translator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='transtator')

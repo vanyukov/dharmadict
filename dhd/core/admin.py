@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import (CustomUser, Page)
+from .models import (CustomUser, Page, Language, Term, Meaning)
 
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
@@ -33,6 +33,19 @@ class PageResource(resources.ModelResource):
     class Meta:
         model = Page
 
+class LanguageResource(resources.ModelResource):
+    class Meta:
+        model = Language
+
+class TermResource(resources.ModelResource):
+    class Meta:
+        model = Term
+
+class MeaningResource(resources.ModelResource):
+    class Meta:
+        model = Meaning
+
+
 class CustomUserAdmin(UserAdmin, ImportExportModelAdmin):
     resource_class = CustomUserResource
     add_form = CustomUserCreationForm
@@ -50,3 +63,6 @@ class CustomUserAdmin(UserAdmin, ImportExportModelAdmin):
 # Register your models here.
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Page)
+admin.site.register(Language)
+admin.site.register(Term)
+admin.site.register(Meaning)
