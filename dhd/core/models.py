@@ -34,9 +34,10 @@ class Page(models.Model):
 
     topmenu = models.BooleanField(default=False)
     url = models.CharField(max_length = 200)
-    title = models.CharField(max_length=80, blank=True, null=True, default='')
-    description = models.CharField(max_length=250, blank=True, null=True, default='')
-    content = models.TextField(blank=True, null=True, default='')
+    title = models.CharField(max_length=80, blank=True, default='')
+    keywords = models.CharField(max_length=255, blank=True, default='')
+    description = models.CharField(max_length=255, blank=True, default='')
+    content = models.TextField(blank=True, default='')
 
     def get_absolute_url(self):
         from django.urls import reverse
@@ -55,6 +56,7 @@ class Page(models.Model):
             'url': self.url,
             'title': self.title,
             'description': self.description,
+            'keywords': self.keywords,
         }
         return res
 
@@ -71,6 +73,7 @@ class Page(models.Model):
             'url': self.url,
             'title': self.title,
             'description': self.description,
+            'keywords': self.keywords,
             'content': self.content,
         }
         return res
@@ -80,3 +83,27 @@ class Page(models.Model):
             str(self.url),
             str(self.title),
         ])
+
+class Language(models.Model):
+    code = models.CharField(max_length = 5)
+    name = models.CharField(max_length = 16)
+
+class Term(models.Model):
+    wylie = models.CharField(max_length = 216)
+    sanscrit = models.CharField(max_length = 216)
+    tibetian = models.CharField(max_length = 216)
+    sa2ru = models.CharField(max_length = 216)
+    sa2en = models.CharField(max_length = 216)
+
+
+class Meaning(models.Model):
+    term = models.ForeignKey(Term, on_delete=models.CASCADE, related_name='term')
+    translator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='transtator')
+    language = models.ForeignKey(Language, on_delete=models.CASCADE, related_name='language')
+    meaning = models.CharField(max_length = 216)
+    # толкование
+    interpretation = models.TextField(blank=True, null=True, default='')
+    # контекст
+    context = models.TextField(blank=True, null=True, default='')
+    # обоснование
+    rationale = models.TextField(blank=True, null=True, default='')
