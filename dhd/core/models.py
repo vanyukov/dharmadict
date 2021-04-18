@@ -88,6 +88,11 @@ class Page(models.Model):
 class Language(models.Model):
     code = models.CharField(max_length = 5)
     name = models.CharField(max_length = 16)
+    def __str__(self):
+        return ' | '.join([
+            str(self.code),
+            str(self.name),
+        ])
 
 class Term(models.Model):
     wylie = models.CharField(max_length = 216)
@@ -95,6 +100,12 @@ class Term(models.Model):
     sa2en = models.CharField(max_length = 216)
     sanscrit = models.CharField(max_length = 216)
     tibetian = models.CharField(max_length = 216)
+    def __str__(self):
+        return ' | '.join([
+            str(self.wylie),
+            str(self.tibetian),
+            str(self.sanscrit),
+        ])
 
 class Meaning(models.Model):
     term = models.ForeignKey(Term, on_delete=models.CASCADE, related_name='term')
@@ -107,3 +118,10 @@ class Meaning(models.Model):
     context = models.TextField(blank=True, null=True, default='')
     # обоснование
     rationale = models.TextField(blank=True, null=True, default='')
+
+    def __str__(self):
+        return ' | '.join([
+            str(self.term),
+            str(self.language),
+            str(self.meaning),
+        ])
