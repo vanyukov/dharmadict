@@ -34,10 +34,10 @@ class Page(models.Model):
 
     topmenu = models.BooleanField(default=False)
     url = models.CharField(max_length = 200)
-    title = models.CharField(max_length=80, blank=True, default='')
-    keywords = models.CharField(max_length=255, blank=True, default='')
-    description = models.CharField(max_length=255, blank=True, default='')
-    content = models.TextField(blank=True, default='')
+    title = models.CharField(max_length=80, blank=True, null=True, default='')
+    keywords = models.CharField(max_length=255, blank=True, null=True, default='')
+    description = models.CharField(max_length=255, blank=True, null=True, default='')
+    content = models.TextField(blank=True, null=True, default='')
 
     def get_absolute_url(self):
         from django.urls import reverse
@@ -57,6 +57,7 @@ class Page(models.Model):
             'title': self.title,
             'description': self.description,
             'keywords': self.keywords,
+
         }
         return res
 
@@ -94,6 +95,7 @@ class Term(models.Model):
     tibetian = models.CharField(max_length = 216)
     sa2ru = models.CharField(max_length = 216)
     sa2en = models.CharField(max_length = 216)
+
 
 class Meaning(models.Model):
     term = models.ForeignKey(Term, on_delete=models.CASCADE, related_name='term')
