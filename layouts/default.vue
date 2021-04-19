@@ -1,8 +1,8 @@
 <template>
-  <div class="container m-0">
+  <div class="m-0 w-full">
     <Sidebar />
-    <main>
-      <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 pt-16">
+    <main class="w-full">
+      <div class="max-w-7xl w-full pt-16 m-auto">
         <Nuxt />
       </div>
     </main>
