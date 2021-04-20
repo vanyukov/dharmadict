@@ -27,9 +27,6 @@ class CustomUser(AbstractUser):
         res = {
             'id': self.pk,
             'full_name': self.full_name,
-            'name': self.full_name,
-            'middle': self.full_name,
-            'surname': self.surname,
         }
         return res
     
