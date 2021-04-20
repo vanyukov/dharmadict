@@ -112,7 +112,7 @@ class Term(models.Model):
     def __str__(self):
         return ' | '.join([
             str(self.wylie),
-            str(self.tibetian),
+            str(self.tibetan),
             str(self.sanscrit),
         ])
 
