@@ -26,7 +26,7 @@ class CustomUser(AbstractUser):
     def json(self):
         res = {
             'id': self.pk,
-            'full_name': self.full_name,
+            'full_name': self.full_name(),
         }
         return res
     
