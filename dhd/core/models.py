@@ -110,7 +110,7 @@ class Term(models.Model):
     tibetan = models.CharField(max_length = 216, blank=True, default='')
 
     def meanings(self):
-        return Meaning.objects.get(term=self)
+        return Meaning.objects.filter(term=self)
 
 
     def __str__(self):
