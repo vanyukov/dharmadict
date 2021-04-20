@@ -22,6 +22,16 @@ class CustomUser(AbstractUser):
 
     def full_name(self):
         return ' '.join([self.last_name, self.first_name, self.middle])
+
+    def json(self):
+        res = {
+            'id': self.pk,
+            'full_name': self.full_name,
+            'name': self.full_name,
+            'middle': self.full_name,
+            'surname': self.surname,
+        }
+        return res
     
 
 class Page(models.Model):
