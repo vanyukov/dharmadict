@@ -136,8 +136,9 @@ class Term(models.Model):
             'sanscrit': self.sanscrit,
             'tibetan': self.tibetan,
         }
+        res['meanings']= []
         for m in self.meanings():
-            res['meanings'] = m.json()
+            res['meanings'].append(m.json())
         return res
 
 
