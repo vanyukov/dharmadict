@@ -99,8 +99,13 @@ def new_user(request):
     )
 
 def api_term(request, term):
-    t = Term.objects.get(wylie=term)
-    data=json.dumps(t.json(), ensure_ascii=False, indent=2)
+    t = Term.objects.filter(wylie__contains=term)
+    arr=[]
+    
+    for term in t:
+        arr.push(term.json())
+    
+    data=json.dumps(arr, ensure_ascii=False, indent=2)
     response = HttpResponse(data, content_type='application/json; charset=utf-8')
     return response
 
