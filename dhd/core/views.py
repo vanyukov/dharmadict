@@ -103,7 +103,7 @@ def api_term(request, term):
     arr=[]
     
     for term in t:
-        arr.push(term.json())
+        arr.append(term.json())
     
     data=json.dumps(arr, ensure_ascii=False, indent=2)
     response = HttpResponse(data, content_type='application/json; charset=utf-8')
