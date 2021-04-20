@@ -149,7 +149,7 @@ class Meaning(models.Model):
     def json(self):
         res = {
             'id': self.pk,
-            'term': self.term.json(),
+            # 'term': self.term.json(),
             'translator': self.translator.json(),
             'language': self.language.json(),
             'meaning': self.meaning,
