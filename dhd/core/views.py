@@ -101,7 +101,6 @@ def new_user(request):
 def api_term(request, term):
     t = Term.objects.filter(wylie__contains=term)
     arr=[]
-    
     for term in t:
         arr.append(term.json())
     

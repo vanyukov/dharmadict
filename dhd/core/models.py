@@ -109,6 +109,10 @@ class Term(models.Model):
     sanscrit = models.CharField(max_length = 216, blank=True, default='')
     tibetan = models.CharField(max_length = 216, blank=True, default='')
 
+    def meanings(self):
+        return Meaning.objects.get(term=self)
+
+
     def __str__(self):
         return ' | '.join([
             str(self.wylie),
@@ -125,6 +129,8 @@ class Term(models.Model):
             'sanscrit': self.sanscrit,
             'tibetan': self.tibetan,
         }
+        for m in self.meanings():
+            res['meanings'] = m.json()
         return res
 
 
