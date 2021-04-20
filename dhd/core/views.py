@@ -13,7 +13,7 @@ from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 
 from .admin import CustomUserResource
 from .forms import CustomUserCreationForm
-from .models import CustomUser
+from .models import (CustomUser, Term, Language, Meaning)
 from .view_helpers import *
 
 # Create your views here.
@@ -97,6 +97,13 @@ def new_user(request):
             'is_self': False,
         })
     )
+
+def api_term(request, term):
+    t = Term.objects.get(wylie=term)
+    data=json.dumps(t.json(), ensure_ascii=False, indent=2)
+    response = HttpResponse(data, content_type='application/json; charset=utf-8')
+    return response
+
 
 def api_page_by_url(request, url):
     p = Page.objects.get(url=url)

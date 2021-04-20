@@ -12,6 +12,8 @@ urlpatterns = [
     path('api/v1/page/<int:page_id>', views.api_page, name='api_page'),
     path('api/v1/page/<int:page_id>/content', views.api_page_content, name='api_page_content'),
 
+    path('api/v1/term/<str:term>', views.api_term, name='api_page'),
+
     # Users
     # path('profile/new', views.new_user, name='new_user'),
     # path('profile/', views.user, name='user'),

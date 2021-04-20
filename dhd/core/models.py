@@ -94,18 +94,39 @@ class Language(models.Model):
             str(self.name),
         ])
 
+    def json(self):
+        res = {
+            'id': self.pk,
+            'code': self.code,
+            'name': self.name,
+        }
+        return res
+
 class Term(models.Model):
     wylie = models.CharField(max_length = 216)
-    sa2ru = models.CharField(max_length = 216)
-    sa2en = models.CharField(max_length = 216)
-    sanscrit = models.CharField(max_length = 216)
-    tibetian = models.CharField(max_length = 216)
+    sa2ru = models.CharField(max_length = 216, blank=True, default='')
+    sa2en = models.CharField(max_length = 216, blank=True, default='')
+    sanscrit = models.CharField(max_length = 216, blank=True, default='')
+    tibetan = models.CharField(max_length = 216, blank=True, default='')
+
     def __str__(self):
         return ' | '.join([
             str(self.wylie),
             str(self.tibetian),
             str(self.sanscrit),
         ])
+
+    def json(self):
+        res = {
+            'id': self.pk,
+            'wylie': self.wylie,
+            'sa2ru': self.sa2ru,
+            'sa2en': self.sa2en,
+            'sanscrit': self.sanscrit,
+            'tibetan': self.tibetan,
+        }
+        return res
+
 
 class Meaning(models.Model):
     term = models.ForeignKey(Term, on_delete=models.CASCADE, related_name='term')
@@ -118,6 +139,20 @@ class Meaning(models.Model):
     context = models.TextField(blank=True, null=True, default='')
     # обоснование
     rationale = models.TextField(blank=True, null=True, default='')
+
+    def json(self):
+        res = {
+            'id': self.pk,
+            'term': self.term.json(),
+            'translator': self.translator.json(),
+            'language': self.language.json(),
+            'meaning': self.meaning,
+            'interpretation': self.interpretation,
+            'context': self.context,
+            'rationale': self.rationale,
+        }
+        return res
+
 
     def __str__(self):
         return ' | '.join([
