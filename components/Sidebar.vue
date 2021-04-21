@@ -2,36 +2,38 @@
   <nav
     class="flex fixed w-full items-center justify-between px-6 h-16 bg-green-500 text-gray-700 border-b border-gray-200 z-10"
   >
-    <div class="flex items-center flex-grow">
-        <!-- <input type="text" name="search" id="search" class="focus:outline-none w-full rounded-md text-base border-gray-300 h-8 px-2 mr-6 max-w-md" placeholder="Поиск"> -->
-
-      <div class="w-full relative h-8 max-w-md focus:outline-none mr-6">
+    <div class="flex items-center">
+      <div class="md:block md:flex md:justify-between md:bg-transparent">
+        <button class="focus:outline-none transform" aria-label="Open Menu" @click="drawer">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="flex items-center flex-grow justify-center">
+      <div class="w-full relative h-8 max-w-md focus:outline-none mx-6">
         <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search w-4 h-4 absolute my-auto inset-y-0 ml-3 left-0 z-10 text-gray-700 dark:text-gray-300 w-4 h-4 absolute my-auto inset-y-0 ml-3 left-0 z-10 text-gray-700 dark:text-gray-300">
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
         <input type="text" class="form-control w-full box px-10 text-gray-700 dark:text-gray-300 placeholder-theme-13 h-8 focus:outline-none rounded-md" placeholder="Поиск">
       </div>
-      
-
     </div>
     <div class="flex items-center">
       <div class="md:block md:flex md:justify-between md:bg-transparent">
-        <button class="focus:outline-none transform" aria-label="Open Menu" @click="drawer">
-          <svg
-            fill="none"
-            stroke="white"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-            class="w-8 h-8"
-          >
-            <path d="M 4 6 h 16 M 4 12 h 16 M 10 18 h 10"></path>
+        <NuxtLink
+          to="/"
+          exact=""
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="white">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />
           </svg>
-        </button>
+        </NuxtLink>
       </div>
     </div>
+    
     <transition
       enter-class="opacity-0"
       enter-active-class="ease-out transition-medium"
@@ -43,18 +45,17 @@
       <div
         @keydown.esc="isOpen = false"
         v-show="isOpen"
-        class="z-10 fixed inset-0 transition-opacity"
+        class="z-10 fixed transition-opacity"
       >
         <div
-          @click="isOpen = false"
-          class="absolute inset-0 bg-black opacity-50"
+          @click="isOpen = false"       
           tabindex="0"
         ></div>
       </div>
     </transition>
     <aside
-      class="transform top-0 right-0 w-full md:w-64 bg-white fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30"
-      :class="isOpen ? 'translate-x-0' : 'translate-x-full'"
+      class="transform top-0 left-0 w-full md:w-64 bg-white fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30 shadow-md"
+      :class="isOpen ? 'translate-x-0' : '-translate-x-full'"
     >
       <span
         @click="isOpen = false"
@@ -101,12 +102,6 @@
           <span>Главная</span></span
         >
       </NuxtLink>
-      <!-- <Loading />
-      <p v-if="$fetchState.pending">
-        <Loading />
-      </p>
-      <p v-else-if="$fetchState.error">An error occurred :(</p> -->
-
       <NuxtLink
         to="/pages/"
       >
@@ -152,59 +147,6 @@
           <span>Переводчики</span></span
         >
       </NuxtLink>
-      <!-- <hr>
-      <NuxtLink
-        to="/pages/translation_features"
-      >
-      <span
-        @click="isOpen = false"
-        class="flex items-center p-4 hover:bg-indigo-500 hover:text-white "
-        ><span class="mr-2">
-          <svg
-            fill="none"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-            class="w-6 h-6"
-          >
-            <path
-              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            ></path>
-          </svg>
-        </span>
-        <span>Особенности переводов</span></span
-      >
-      </NuxtLink>
-      <NuxtLink
-        to="/pages/history"
-      >
-        <span
-          @click="isOpen = false"
-          class="flex items-center p-4 hover:bg-indigo-500 hover:text-white "
-          ><span class="mr-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-          </span>
-          <span>История буддийских текстов в России</span></span
-        >
-      </NuxtLink>
-      <NuxtLink
-        to="/pages/about"
-      >
-        <span
-          @click="isOpen = false"
-          class="flex items-center p-4 hover:bg-indigo-500 hover:text-white "
-          ><span class="mr-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-            </svg>
-          </span>
-          <span>Цели проекта "Русский буддийский словарь"</span></span
-        >
-      </NuxtLink> -->
       <hr>
       <NuxtLink
         to="/pages"
@@ -232,29 +174,14 @@ export default {
   },
   data() {
     return {
-      // menu: [],
       isOpen: false,
     }
   },
-  // async fetch() {
-  //   this.menu = await this.$api('v1', 'pages');
-  // },
   methods: {
     drawer() {
       this.isOpen = !this.isOpen;
     }
   },
-  // watch: {
-  //   isOpen: {
-  //     immediate: true,
-  //     // handler(isOpen) {
-  //     //   if (process.client) {
-  //     //     if (isOpen) document.body.style.setProperty("overflow", "hidden");
-  //     //     else document.body.style.removeProperty("overflow");
-  //     //   }
-  //     // }
-  //   }
-  // },
   mounted() {
     document.addEventListener("keydown", e => {
       if (e.keyCode == 27 && this.isOpen) this.isOpen = false;
