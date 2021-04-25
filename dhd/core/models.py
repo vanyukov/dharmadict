@@ -13,7 +13,7 @@ class CustomUser(AbstractUser):
     img = models.ImageField(upload_to='static/img', blank=True, null=True, default='static/img/user.jpg')
     middle = models.CharField(max_length=150, blank=True)
     note = models.TextField(blank=True, null=True, default='')
-
+    isTranslator = deleted = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
 
     def get_absolute_url(self):
@@ -37,9 +37,11 @@ class Page(models.Model):
     modified = models.DateTimeField(null=True, blank=True)
     modificator = models.ForeignKey(CustomUser, null=True, blank=True, on_delete=models.CASCADE, related_name='modificator')
     published = models.BooleanField(default=False)
+    mainMenuLink = models.BooleanField(default=False)
+    mainPageLink = models.BooleanField(default=False)
+
     deleted = models.BooleanField(default=False)
 
-    topmenu = models.BooleanField(default=False)
     url = models.CharField(max_length = 200)
     title = models.CharField(max_length=80, blank=True, null=True, default='')
     keywords = models.CharField(max_length=255, blank=True, null=True, default='')

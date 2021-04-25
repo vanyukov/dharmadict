@@ -25,7 +25,11 @@ class CustomUserResource(resources.ModelResource):
             'last_login',
             'date_joined',
             'groups',
-            'user_permissions', 'img', 'password', 'deleted'
+            'user_permissions', 
+            'img', 
+            'password',
+            'isTranslator', 
+            'deleted'
         )
 
 
@@ -54,7 +58,7 @@ class CustomUserAdmin(UserAdmin, ImportExportModelAdmin):
     list_display = ['username', 'first_name', 'email', 'img']
     # Add fields to admin page
     fieldsets = UserAdmin.fieldsets
-    fieldsets[1][1]["fields"] = ('last_name', 'first_name', 'middle', 'email', 'img')
+    fieldsets[1][1]["fields"] = ('last_name', 'first_name', 'middle', 'email', 'img', 'isTranslator')
     add_fieldsets = UserAdmin.add_fieldsets + (
         (None, {'fields': ('last_name', 'first_name', 'middle',)}),
     )

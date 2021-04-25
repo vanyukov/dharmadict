@@ -15,6 +15,7 @@ urlpatterns = [
     path('api/v1/term/<str:term>', views.api_term, name='api_term'),
 
     path('api/v1/terms/', views.api_terms, name='api_terms'),
+    path('api/v1/translators/', views.api_translators, name='api_terms'),
 
     # Users
     # path('profile/new', views.new_user, name='new_user'),
@@ -29,5 +30,6 @@ urlpatterns = [
     # path('profiles/import/preview', views.upload_users_preview, name='upload_users_preview'),
     # path('profiles/import/apply', views.upload_users_apply, name='upload_users_apply'),
 
-    path('api/v1/pages/', views.api_pages, name='api_pages'),
+    path('api/v1/mainmenu/links', views.api_mainMenuLinks, name='api_pages'),
+    path('api/v1/mainpage/links', views.api_mainPageLinks, name='api_pages'),
 ]

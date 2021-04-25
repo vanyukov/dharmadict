@@ -135,6 +135,21 @@ def api_terms(request):
     response = HttpResponse(data, content_type='application/json; charset=utf-8')
     return response
 
+def api_translators(request):
+    u_qs = active_users().filter(isTranslator=True)
+    
+    res={}
+    for u in u_qs:
+        if not u.full_name() in res:
+            res[u.full_name()] = []
+            res[u.full_name()].append(u.json())
+        else:
+            res[u.full_name()].append(u.json())
+
+    data=json.dumps(res, ensure_ascii=False, indent=2)
+    response = HttpResponse(data, content_type='application/json; charset=utf-8')
+    return response
+
 
 def api_page_by_url(request, url):
     p = Page.objects.get(url=url)
@@ -169,6 +184,25 @@ def api_pages(request):
     response = HttpResponse(data, content_type='application/json; charset=utf-8')
     return response
 
+def api_mainMenuLinks(request):
+    result = []
+    pages_qs = active_pages().filter(mainMenuLink=True)
+    for r in pages_qs:
+        result.append(r.json_no_content())
+    
+    data=json.dumps(result, ensure_ascii=False, indent=2)
+    response = HttpResponse(data, content_type='application/json; charset=utf-8')
+    return response
+
+def api_mainPageLinks(request):
+    result = []
+    pages_qs = active_pages().filter(mainPageLink=True)
+    for r in pages_qs:
+        result.append(r.json_no_content())
+    
+    data=json.dumps(result, ensure_ascii=False, indent=2)
+    response = HttpResponse(data, content_type='application/json; charset=utf-8')
+    return response
 
 def user(request):
     if not request.user.is_authenticated: return HttpResponseRedirect('/accounts/login')
