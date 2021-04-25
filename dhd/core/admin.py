@@ -45,7 +45,7 @@ class MeaningResource(resources.ModelResource):
     class Meta:
         model = Meaning
 
-
+#--------
 class CustomUserAdmin(UserAdmin, ImportExportModelAdmin):
     resource_class = CustomUserResource
     add_form = CustomUserCreationForm
@@ -59,10 +59,26 @@ class CustomUserAdmin(UserAdmin, ImportExportModelAdmin):
         (None, {'fields': ('last_name', 'first_name', 'middle',)}),
     )
 
+class PageAdmin(ImportExportModelAdmin):
+    resource_class = PageResource
+
+
+class LanguageAdmin(ImportExportModelAdmin):
+    resource_class = LanguageResource
+
+class TermAdmin(ImportExportModelAdmin):
+    resource_class = TermResource
+
+class MeaningAdmin(ImportExportModelAdmin):
+    resource_class = MeaningResource
+
+
+
+
 
 # Register your models here.
 admin.site.register(CustomUser, CustomUserAdmin)
-admin.site.register(Page)
-admin.site.register(Language)
-admin.site.register(Term)
-admin.site.register(Meaning)
+admin.site.register(Page, PageAdmin)
+admin.site.register(Language, LanguageAdmin)
+admin.site.register(Term, TermAdmin)
+admin.site.register(Meaning, MeaningAdmin)

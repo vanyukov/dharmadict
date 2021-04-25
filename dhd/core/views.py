@@ -15,6 +15,7 @@ from .admin import CustomUserResource
 from .forms import CustomUserCreationForm
 from .models import (CustomUser, Term, Language, Meaning)
 from .view_helpers import *
+from .filters import TermFilter
 
 # Create your views here.
 
@@ -99,9 +100,10 @@ def new_user(request):
     )
 
 def api_term(request, term):
-    t = Term.objects.filter(wylie__contains=term)
+    t = TermFilter(request.GET, Term.objects.all())
+    # t = Term.objects.filter(wylie__contains=term)
     arr=[]
-    for term in t:
+    for term in t.qs:
         arr.append(term.json())
     
     data=json.dumps(arr, ensure_ascii=False, indent=2)
