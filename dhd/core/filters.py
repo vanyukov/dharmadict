@@ -19,16 +19,16 @@ class TermFilter(FilterSet):
         )
     )
 
-    full_term = CharFilter('full_term', method='full_term_filter')
+    search = CharFilter('search', method='search_filter')
 
-    def full_term_filter(self, queryset:QuerySet, name, value):
+    def search_filter(self, queryset:QuerySet, name, value):
         if value == "":
-            return queryset
-        vals = value.split(" ")
-        value = vals.pop()
+            return queryset.none()
+        # vals = value.split(" ")
+        # value = vals.pop()
         qval = Q(wylie__istartswith=value) | Q(sa2ru__istartswith=value) | Q(sa2en__istartswith=value) | Q(tibetan__istartswith=value) | Q(sanscrit__istartswith=value)
-        for val in vals:
-            qval = qval | Q(wylie__istartswith=value) | Q(sa2ru__istartswith=value) | Q(sa2en__istartswith=value) | Q(tibetan__istartswith=value) | Q(sanscrit__istartswith=value)
+        # for val in vals:
+        #     qval = qval | Q(wylie__istartswith=value) | Q(sa2ru__istartswith=value) | Q(sa2en__istartswith=value) | Q(tibetan__istartswith=value) | Q(sanscrit__istartswith=value)
         return queryset.filter(qval)
 
     class Meta:

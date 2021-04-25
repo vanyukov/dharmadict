@@ -18,6 +18,7 @@ from .view_helpers import *
 from .filters import TermFilter
 
 # Create your views here.
+logging.basicConfig(level=logging.DEBUG)
 
 def index(request):
     return HttpResponse("Буддийская терминология в русских переводах. Версия 2 – в процессе разработки.")
@@ -100,12 +101,23 @@ def new_user(request):
     )
 
 def api_term(request, term):
-    t = TermFilter(request.GET, Term.objects.all())
-    # t = Term.objects.filter(wylie__contains=term)
+    t = Term.objects.filter(wylie__contains=term)
     arr=[]
     for term in t.qs:
         arr.append(term.json())
     
+    data=json.dumps(arr, ensure_ascii=False, indent=2)
+    response = HttpResponse(data, content_type='application/json; charset=utf-8')
+    return response
+
+def api_terms(request):
+    # if (request.GET['search'] and request.GET['search'] != "")
+    t = TermFilter(request.GET, Term.objects.all()) if ('search' in request.GET and request.GET['search'] != '') else TermFilter(request.GET, Term.objects.none())
+    arr=[]
+    for term in t.qs:
+        arr.append(term.json())
+    
+    logging.debug('arr len %d', len(arr))
     data=json.dumps(arr, ensure_ascii=False, indent=2)
     response = HttpResponse(data, content_type='application/json; charset=utf-8')
     return response
