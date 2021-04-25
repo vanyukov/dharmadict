@@ -15,7 +15,7 @@ from .admin import CustomUserResource
 from .forms import CustomUserCreationForm
 from .models import (CustomUser, Term, Language, Meaning)
 from .view_helpers import *
-from .filters import TermFilter
+from .filters import (TermFilter, MeaningFilter)
 
 # Create your views here.
 logging.basicConfig(level=logging.DEBUG)
@@ -113,12 +113,25 @@ def api_term(request, term):
 def api_terms(request):
     # if (request.GET['search'] and request.GET['search'] != "")
     t = TermFilter(request.GET, Term.objects.all()) if ('search' in request.GET and request.GET['search'] != '') else TermFilter(request.GET, Term.objects.none())
-    arr=[]
-    for term in t.qs:
-        arr.append(term.json())
+    m = MeaningFilter(request.GET, Meaning.objects.all()) if ('search' in request.GET and request.GET['search'] != '') else MeaningFilter(request.GET, Meaning.objects.none())
     
-    logging.debug('arr len %d', len(arr))
-    data=json.dumps(arr, ensure_ascii=False, indent=2)
+    res={}
+    for t in t.qs:
+        if not t.wylie in res:
+            res[t.wylie] = []
+            res[t.wylie].append(t.json())
+        else:
+            res[t.wylie].append(t.json())
+
+    for m in m.qs:
+        if not m.term.wylie in res:
+            res[m.term.wylie] = []
+            res[m.term.wylie].append(m.term.json())
+        else:
+            res[m.term.wylie].append(m.term.json())
+    
+    logging.debug('arr len %d', len(res))
+    data=json.dumps(res, ensure_ascii=False, indent=2)
     response = HttpResponse(data, content_type='application/json; charset=utf-8')
     return response
 

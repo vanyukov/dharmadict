@@ -24,11 +24,7 @@ class TermFilter(FilterSet):
     def search_filter(self, queryset:QuerySet, name, value):
         if value == "":
             return queryset.none()
-        # vals = value.split(" ")
-        # value = vals.pop()
         qval = Q(wylie__istartswith=value) | Q(sa2ru__istartswith=value) | Q(sa2en__istartswith=value) | Q(tibetan__istartswith=value) | Q(sanscrit__istartswith=value)
-        # for val in vals:
-        #     qval = qval | Q(wylie__istartswith=value) | Q(sa2ru__istartswith=value) | Q(sa2en__istartswith=value) | Q(tibetan__istartswith=value) | Q(sanscrit__istartswith=value)
         return queryset.filter(qval)
 
     class Meta:
@@ -39,5 +35,28 @@ class TermFilter(FilterSet):
             "sa2en": ["icontains"],
             "tibetan": ["icontains"],
             "sanscrit": ["icontains"],
+        }
+
+
+class MeaningFilter(FilterSet):
+    order_by = OrderingFilter(
+        fields = (
+            ('id', 'id'),
+            ('meaning', 'meaning'),
+        )
+    )
+
+    search = CharFilter('search', method='search_filter')
+
+    def search_filter(self, queryset:QuerySet, name, value):
+        if value == "":
+            return queryset.none()
+        qval = Q(meaning__istartswith=value)
+        return queryset.filter(qval)
+
+    class Meta:
+        model = Meaning
+        fields = {
+            "meaning": ["icontains"],
         }
 
