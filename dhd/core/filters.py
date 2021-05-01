@@ -24,7 +24,8 @@ class TermFilter(FilterSet):
     def search_filter(self, queryset:QuerySet, name, value):
         if value == "":
             return queryset.none()
-        qval = Q(wylie__istartswith=value) | Q(sa2ru__istartswith=value) | Q(sa2en__istartswith=value) | Q(tibetan__istartswith=value) | Q(sanscrit__istartswith=value)
+        qval = Q(wylie__istartswith=value) | Q(sa2ru__istartswith=value) | Q(sa2en__istartswith=value) | Q(tibetan__istartswith=value) | Q(sanscrit__istartswith=value) | Q(sa2ru__icontains=value) | Q(sa2en__icontains=value)
+            
         return queryset.filter(qval)
 
     class Meta:
@@ -51,6 +52,7 @@ class MeaningFilter(FilterSet):
     def search_filter(self, queryset:QuerySet, name, value):
         if value == "":
             return queryset.none()
+#        qval = Q(meaning__icontains=value)
         qval = Q(meaning__istartswith=value)
         return queryset.filter(qval)
 

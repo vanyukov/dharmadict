@@ -112,12 +112,19 @@ class Language(models.Model):
         return res
 
 class Term(models.Model):
-    wylie = models.CharField(max_length = 216)
+    wylie = models.CharField(max_length = 216, unique=True)
     sa2ru = models.CharField(max_length = 216, blank=True, default='')
     sa2en = models.CharField(max_length = 216, blank=True, default='')
     sanscrit = models.CharField(max_length = 216, blank=True, default='')
     tibetan = models.CharField(max_length = 216, blank=True, default='')
 
+    @staticmethod
+    def by_wylie(wylie):
+        try:
+            return Term.objects.get(wylie=wylie)
+        except Term.DoesNotExist as exc:
+            return None
+        
     def meanings(self):
         return Meaning.objects.filter(term=self)
 
