@@ -27,6 +27,7 @@
                 {{ item.title }}
               </NuxtLink>
             </div>
+            <SearchBar />
           </div>
         </div>
         <div class="-mr-2 flex md:hidden">
@@ -95,9 +96,11 @@
 
 <script>
 import Loading from '@/components/Loading'
+import SearchBar from '@/components/SearchBar'
 export default {
   components: {
     Loading,
+    SearchBar,
   },
   data() {
     return {
