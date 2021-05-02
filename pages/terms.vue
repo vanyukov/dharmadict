@@ -1,0 +1,121 @@
+<template>
+  <div class="p-2 text-lg">
+    <h1>Результаты поиска "{{ this.$route.query.search }}"</h1>
+    <div
+      class="mt-3 mb-6"
+      v-for="words of Object.keys(terms)"
+      v-bind:key="words"
+    >
+      <div
+        class="border-2 rounded-md p-2"
+        v-for="item of terms[words]"
+        v-bind:key="item.id"
+      >
+        <div class="word-title relative">
+          <span
+            class="text-xl font-bold p-1"
+            v-for="field of translateFields"
+            v-bind:key="field"
+          >
+            {{ item[field] }}
+            {{ separator }}
+          </span>
+          <button
+            class="arrow arrow_open absolute text-xl font-bold p-1 justify-self-end border-2 rounded-md px-2"
+            @click="toggleTranslete(item.id)"
+            v-if="isWordOpen(item.id)"
+          >
+            >
+          </button>
+          <button
+            class="arrow arrow_close absolute text-xl font-bold p-1 justify-self-end border-2 rounded-md px-2"
+            @click="toggleTranslete(item.id)"
+            v-if="!isWordOpen(item.id)"
+          >
+            >
+          </button>
+        </div>
+        <div v-if="isWordOpen(item.id)">
+          <div
+            class="border-2 rounded-md p-2 mt-2"
+            v-for="meaning of item.meanings"
+            v-bind:key="meaning.id"
+          >
+            <div class="flex justify-between">
+              <span>{{ meaning.meaning }}</span>
+              <span class="ml-2 font-semibold">{{
+                meaning.translator.full_name
+              }}</span>
+            </div>
+            <div class="flex mt-2" v-if="meaning.interpretation">
+              {{ meaning.interpretation }}
+            </div>
+            <div class="flex mt-2" v-if="meaning.context">
+              {{ meaning.context }}
+            </div>
+            <div class="flex mt-2" v-if="meaning.rationale">
+              {{ meaning.rationale }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.word-title {
+  padding-right: 40px;
+}
+.arrow {
+  right: 3px;
+  top: -4px;
+}
+
+.arrow_open {
+  transform: rotate(270deg);
+}
+
+.arrow_close {
+  transform: rotate(90deg);
+}
+</style>
+
+<script>
+export default {
+  data() {
+    return {
+      translateFields: ['sa2ru', 'sanscrit', 'tibetan', 'wylie', 'sa2en'],
+      separator: '/',
+      hiddenWordsId: [],
+    }
+  },
+
+  async asyncData({ query, $api, error }) {
+    try {
+      const terms = await $api('v1', `terms/?search=${query.search}`)
+      return { terms }
+    } catch (e) {
+      return error({
+        statusCode: 404,
+        message: e.message,
+      })
+    }
+  },
+
+  methods: {
+    toggleTranslete(id) {
+      if (this.hiddenWordsId.some(item => id === item)) {
+        this.hiddenWordsId = this.hiddenWordsId.filter(item => id !== item)
+        console.log('+')
+      } else {
+        this.hiddenWordsId.push(id)
+        console.log('-')
+      }
+    },
+    isWordOpen(id) {
+      return !this.hiddenWordsId.some(item => id === item)
+    },
+  },
+}
+</script>
