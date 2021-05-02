@@ -137,5 +137,14 @@ export default {
       ]
     },
   },
+
+  async beforeMount() {
+    if (!Object.keys(this.terms).length) {
+      this.terms = await this.$api(
+        'v1',
+        `terms/?search=${this.$route.query.search}`,
+      )
+    }
+  },
 }
 </script>
