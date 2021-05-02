@@ -33,7 +33,7 @@ def import_meanings_from_file_for_user(file_name, username, language, nocomment=
                 for tr in trs_s:
                     m = Meaning(term=term, language=lang, translator=t, meaning=tr) if nocomment else Meaning(term=term, language=lang, translator=t, meaning=tr, comment=comment)
                     print(str(m))
-                    # m.save();
+                    m.save();
 
 
 def import_terms_from_file(file_name):
@@ -77,7 +77,7 @@ def import_terms_from_file(file_name):
             else:
                 term = Term(wylie=wylie, sa2ru1=sa2ru1, sa2en1=sa2en1, sa2ru2=sa2ru2, sa2en2=sa2en2, sa2ru3=sa2ru3, sa2en3=sa2en3)
             print(str(term))
-            # term.save();
+            term.save();
             
             
         

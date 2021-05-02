@@ -192,7 +192,7 @@ class Meaning(models.Model):
     term = models.ForeignKey(Term, on_delete=models.CASCADE, related_name='term')
     translator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='transtator')
     language = models.ForeignKey(Language, on_delete=models.CASCADE, related_name='language')
-    meaning = models.CharField(max_length = 216)
+    meaning = models.CharField(max_length = 512)
     # коментарий
     comment = models.TextField(blank=True, null=True, default='')
     # толкование
