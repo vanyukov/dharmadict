@@ -120,15 +120,15 @@ def api_terms(request):
         if not t.wylie in res:
             res[t.wylie] = []
             res[t.wylie].append(t.json())
-        else:
-            res[t.wylie].append(t.json())
+        # else:
+        #     res[t.wylie].append(t.json())
 
     for m in m.qs:
         if not m.term.wylie in res:
             res[m.term.wylie] = []
             res[m.term.wylie].append(m.term.json())
-        else:
-            res[m.term.wylie].append(m.term.json())
+        # else:
+        #     res[m.term.wylie].append(m.term.json())
     
     logging.debug('arr len %d', len(res))
     data=json.dumps(res, ensure_ascii=False, indent=2)
