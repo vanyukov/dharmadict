@@ -27,6 +27,7 @@
                 {{ item.title }}
               </NuxtLink>
             </div>
+            <SearchBar />
           </div>
         </div>
         <div class="-mr-2 flex md:hidden">
@@ -86,7 +87,7 @@
           active-class=" bg-gray-900 "
           class="px-3 py-2 rounded-md text-sm font-medium text-white hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"
         >
-          {{ item.title }}
+          {{ item.shortTitle || item.title }}
         </NuxtLink>
       </div>
     </div>
@@ -95,9 +96,11 @@
 
 <script>
 import Loading from '@/components/Loading'
+import SearchBar from '@/components/SearchBar'
 export default {
   components: {
     Loading,
+    SearchBar,
   },
   data() {
     return {
@@ -106,7 +109,7 @@ export default {
     }
   },
   async fetch() {
-    this.menu = await this.$api('v1', 'pages')
+    this.menu = await this.$api('v1', 'mainmenu/links')
   },
   methods: {
     toggle() {
