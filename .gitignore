@@ -2,7 +2,7 @@
 
 __pycache__
 *.pyc
-.vscode
+!.vscode
 *_env
 img
 avatars
