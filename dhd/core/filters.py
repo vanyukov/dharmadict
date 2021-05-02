@@ -12,8 +12,12 @@ class TermFilter(FilterSet):
         fields = (
             ('id', 'id'),
             ('wylie', 'wylie'),
-            ('sa2ru', 'sa2ru'),
-            ('sa2en', 'sa2en'),
+            ('sa2ru1', 'sa2ru1'),
+            ('sa2en1', 'sa2en1'),
+            ('sa2ru2', 'sa2ru2'),
+            ('sa2en2', 'sa2en2'),
+            ('sa2ru3', 'sa2ru3'),
+            ('sa2en3', 'sa2en3'),
             ('tibetan', 'tibetan'),
             ('sanscrit', 'sanscrit'),
         )
@@ -24,7 +28,7 @@ class TermFilter(FilterSet):
     def search_filter(self, queryset:QuerySet, name, value):
         if value == "":
             return queryset.none()
-        qval = Q(wylie__istartswith=value) | Q(sa2ru__istartswith=value) | Q(sa2en__istartswith=value) | Q(tibetan__istartswith=value) | Q(sanscrit__istartswith=value) | Q(sa2ru__icontains=value) | Q(sa2en__icontains=value)
+        qval = Q(wylie__istartswith=value) | Q(sa2ru1__istartswith=value) | Q(sa2en1__istartswith=value) | Q(sa2ru2__istartswith=value) | Q(sa2en2__istartswith=value) | Q(sa2ru3__istartswith=value) | Q(sa2en3__istartswith=value) | Q(tibetan__istartswith=value) | Q(sanscrit__istartswith=value) | Q(sa2ru__icontains=value) | Q(sa2en__icontains=value)
             
         return queryset.filter(qval)
 
@@ -32,8 +36,12 @@ class TermFilter(FilterSet):
         model = Term
         fields = {
             "wylie": ["icontains"],
-            "sa2ru": ["icontains"],
-            "sa2en": ["icontains"],
+            "sa2ru1": ["icontains"],
+            "sa2en1": ["icontains"],
+            "sa2ru2": ["icontains"],
+            "sa2en2": ["icontains"],
+            "sa2ru3": ["icontains"],
+            "sa2en3": ["icontains"],
             "tibetan": ["icontains"],
             "sanscrit": ["icontains"],
         }

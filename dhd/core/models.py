@@ -44,6 +44,7 @@ class Page(models.Model):
 
     url = models.CharField(max_length = 200)
     title = models.CharField(max_length=80, blank=True, null=True, default='')
+    shortTitle = models.CharField(max_length=20, blank=True, null=True, default='')
     keywords = models.CharField(max_length=255, blank=True, null=True, default='')
     description = models.CharField(max_length=255, blank=True, null=True, default='')
     content = models.TextField(blank=True, null=True, default='')
@@ -64,9 +65,9 @@ class Page(models.Model):
             
             'url': self.url,
             'title': self.title,
+            'shortTitle': self.shortTitle,
             'description': self.description,
             'keywords': self.keywords,
-
         }
         return res
 
@@ -82,6 +83,7 @@ class Page(models.Model):
             
             'url': self.url,
             'title': self.title,
+            'shortTitle': self.shortTitle,
             'description': self.description,
             'keywords': self.keywords,
             'content': self.content,
@@ -113,10 +115,15 @@ class Language(models.Model):
 
 class Term(models.Model):
     wylie = models.CharField(max_length = 216, unique=True)
-    sa2ru = models.CharField(max_length = 216, blank=True, default='')
-    sa2en = models.CharField(max_length = 216, blank=True, default='')
+    sa2ru1 = models.CharField(max_length = 216, blank=True, default='')
+    sa2ru2 = models.CharField(max_length = 216, blank=True, default='')
+    sa2ru3 = models.CharField(max_length = 216, blank=True, default='')
+    sa2en1 = models.CharField(max_length = 216, blank=True, default='')
+    sa2en2 = models.CharField(max_length = 216, blank=True, default='')
+    sa2en3 = models.CharField(max_length = 216, blank=True, default='')
     sanscrit = models.CharField(max_length = 216, blank=True, default='')
     tibetan = models.CharField(max_length = 216, blank=True, default='')
+    
 
     @staticmethod
     def by_wylie(wylie):
@@ -128,10 +135,27 @@ class Term(models.Model):
     def meanings(self):
         return Meaning.objects.filter(term=self)
 
+    def sa2ru(self):
+        res = self.sa2ru1
+        if self.sa2ru2:
+            res += "; %s" % self.sa2ru2
+        if self.sa2ru3:
+            res += "; %s" % self.sa2ru3
+        return res
+
+    def sa2en(self):
+        res = self.sa2en1
+        if self.sa2en2:
+            res += "; %s" % self.sa2en2
+        if self.sa2en3:
+            res += "; %s" % self.sa2en3
+        return res
 
     def __str__(self):
         return ' | '.join([
             str(self.wylie),
+            str(self.sa2ru()),
+            str(self.sa2en()),
             str(self.tibetan),
             str(self.sanscrit),
         ])
@@ -140,8 +164,8 @@ class Term(models.Model):
         res = {
             'id': self.pk,
             'wylie': self.wylie,
-            'sa2ru': self.sa2ru,
-            'sa2en': self.sa2en,
+            'sa2ru': self.sa2ru(),
+            'sa2en': self.sa2en(),
             'sanscrit': self.sanscrit,
             'tibetan': self.tibetan,
         }
