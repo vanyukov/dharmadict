@@ -2,26 +2,26 @@ import datetime
 import json
 import logging
 import os
+from email import contentmanager
 
-from django.shortcuts import render
-from django.urls import include, path
 from django.http import HttpResponse
 from django.http.response import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render, reverse
-from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
+from django.urls import include, path
 from django.utils.translation import ugettext as _
-
-from .view_helpers import *
+from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 
 from .admin import CustomUserResource
-
-from .forms import (CustomUserCreationForm)
-from .models import (CustomUser)
+from .forms import CustomUserCreationForm
+from .models import (CustomUser, Term, Language, Meaning)
+from .view_helpers import *
+from .filters import (TermFilter, MeaningFilter)
 
 # Create your views here.
+logging.basicConfig(level=logging.DEBUG)
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+    return HttpResponse("Буддийская терминология в русских переводах. Версия 2 – в процессе разработки.")
 
 def delete_user(request, user_id, operation):
     if not request.user.is_authenticated or request.method != "POST" or not request.user.is_staff: return json_forbidden()
@@ -100,18 +100,109 @@ def new_user(request):
         })
     )
 
-def page(request):
-    u = request.user
-    p = request.page
-    return render(
-        request,
-        'page.html',
-        context= common_context(request, {
-            'profile': u,
-            'page': p,
-        } )
-    )
+def api_term(request, term):
+    t = Term.objects.filter(wylie__contains=term)
+    arr=[]
+    for term in t.qs:
+        arr.append(term.json())
+    
+    data=json.dumps(arr, ensure_ascii=False, indent=2)
+    response = HttpResponse(data, content_type='application/json; charset=utf-8')
+    return response
 
+def api_terms(request):
+    # if (request.GET['search'] and request.GET['search'] != "")
+    t = TermFilter(request.GET, Term.objects.all()) if ('search' in request.GET and request.GET['search'] != '') else TermFilter(request.GET, Term.objects.none())
+    m = MeaningFilter(request.GET, Meaning.objects.all()) if ('search' in request.GET and request.GET['search'] != '') else MeaningFilter(request.GET, Meaning.objects.none())
+    
+    res={}
+    for t in t.qs:
+        if not t.wylie in res:
+            res[t.wylie] = []
+            res[t.wylie].append(t.json())
+        else:
+            res[t.wylie].append(t.json())
+
+    for m in m.qs:
+        if not m.term.wylie in res:
+            res[m.term.wylie] = []
+            res[m.term.wylie].append(m.term.json())
+        else:
+            res[m.term.wylie].append(m.term.json())
+    
+    logging.debug('arr len %d', len(res))
+    data=json.dumps(res, ensure_ascii=False, indent=2)
+    response = HttpResponse(data, content_type='application/json; charset=utf-8')
+    return response
+
+def api_translators(request):
+    u_qs = active_users().filter(isTranslator=True)
+    
+    res={}
+    for u in u_qs:
+        if not u.full_name() in res:
+            res[u.full_name()] = []
+            res[u.full_name()].append(u.json())
+        else:
+            res[u.full_name()].append(u.json())
+
+    data=json.dumps(res, ensure_ascii=False, indent=2)
+    response = HttpResponse(data, content_type='application/json; charset=utf-8')
+    return response
+
+
+def api_page_by_url(request, url):
+    p = Page.objects.get(url=url)
+    data=json.dumps(p.json(), ensure_ascii=False, indent=2)
+    response = HttpResponse(data, content_type='application/json; charset=utf-8')
+    return response
+
+def api_page_by_url_content(request, url):
+    p = Page.objects.get(url=url)
+    # data=json.dumps(p.json(), ensure_ascii=False, indent=2)
+    response = HttpResponse(p.content)
+    return response
+
+def api_page(request, page_id):
+    p = get_object_or_404(Page, pk=page_id)
+    data=json.dumps(p.json(), ensure_ascii=False, indent=2)
+    response = HttpResponse(data, content_type='application/json; charset=utf-8')
+    return response
+
+def api_page_content(request, page_id):
+    p = get_object_or_404(Page, pk=page_id)
+    response = HttpResponse(p.content)
+    return response
+
+def api_pages(request):
+    result = []
+    pages_qs = active_pages()
+    for r in pages_qs:
+        result.append(r.json_no_content())
+    
+    data=json.dumps(result, ensure_ascii=False, indent=2)
+    response = HttpResponse(data, content_type='application/json; charset=utf-8')
+    return response
+
+def api_mainMenuLinks(request):
+    result = []
+    pages_qs = active_pages().filter(mainMenuLink=True)
+    for r in pages_qs:
+        result.append(r.json_no_content())
+    
+    data=json.dumps(result, ensure_ascii=False, indent=2)
+    response = HttpResponse(data, content_type='application/json; charset=utf-8')
+    return response
+
+def api_mainPageLinks(request):
+    result = []
+    pages_qs = active_pages().filter(mainPageLink=True)
+    for r in pages_qs:
+        result.append(r.json_no_content())
+    
+    data=json.dumps(result, ensure_ascii=False, indent=2)
+    response = HttpResponse(data, content_type='application/json; charset=utf-8')
+    return response
 
 def user(request):
     if not request.user.is_authenticated: return HttpResponseRedirect('/accounts/login')
