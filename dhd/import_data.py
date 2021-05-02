@@ -11,6 +11,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dhd.settings')
 django.setup()
 
 from core.models import (CustomUser, Term, Language, Meaning)
+#Meaning.objects.all().delete()
 
 def import_meanings_from_file_for_user(file_name, username, language, nocomment=False):
     t = CustomUser.translators().get(username=username)
