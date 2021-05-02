@@ -1,0 +1,10 @@
+{
+    "prettier.configPath": ".prettierrc",
+    "liveServer.settings.root": "/dist",
+    "liveServer.settings.multiRootWorkspaceName": "dharmadict",
+    "liveServer.settings.proxy": {
+        "enable": true,
+        "baseUri": "/api",
+        "proxyUri": "https://test.dharmadict.ru/api"
+    }
+}
