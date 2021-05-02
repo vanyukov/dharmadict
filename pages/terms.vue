@@ -1,6 +1,16 @@
 <template>
   <div class="p-2 text-lg">
     <h1>Результаты поиска "{{ this.$route.query.search }}"</h1>
+    <p>
+      Найдено {{ Object.keys(terms).length }}
+      {{
+        declOfNum(Object.keys(terms).length, [
+          'перевод',
+          'перевода',
+          'переводов',
+        ])
+      }}
+    </p>
     <div
       class="mt-3 mb-6"
       v-for="words of Object.keys(terms)"
@@ -96,6 +106,8 @@ export default {
       const terms = await $api('v1', `terms/?search=${query.search}`)
       return { terms }
     } catch (e) {
+      console.error('🚀 -> file: terms.vue -> line 110 -> asyncData -> e', e)
+
       return error({
         statusCode: 404,
         message: e.message,
@@ -107,14 +119,20 @@ export default {
     toggleTranslete(id) {
       if (this.hiddenWordsId.some(item => id === item)) {
         this.hiddenWordsId = this.hiddenWordsId.filter(item => id !== item)
-        console.log('+')
       } else {
         this.hiddenWordsId.push(id)
-        console.log('-')
       }
     },
     isWordOpen(id) {
       return !this.hiddenWordsId.some(item => id === item)
+    },
+
+    declOfNum(number, words) {
+      return words[
+        number % 100 > 4 && number % 100 < 20
+          ? 2
+          : [2, 0, 1, 1, 1, 2][number % 10 < 5 ? number % 10 : 5]
+      ]
     },
   },
 }
