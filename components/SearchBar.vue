@@ -19,6 +19,8 @@ export default {
   },
   methods: {
     search() {
+      if (!this.query) return null
+
       const path = `/terms/?search=${this.query}`
       this.query = ''
       this.$nuxt.$router.replace({ path })
