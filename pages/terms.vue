@@ -115,6 +115,8 @@ export default {
     }
   },
 
+  watchQuery: ['search'],
+
   methods: {
     toggleTranslete(id) {
       if (this.hiddenWordsId.some(item => id === item)) {
