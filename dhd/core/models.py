@@ -1,13 +1,13 @@
-import logging
 import datetime
 import json
+import logging
 from datetime import datetime
-from import_export import resources
-
-from django.db import models
 
 from django.contrib.auth.models import AbstractUser
 from django.db import migrations, models
+from django.templatetags.i18n import language
+from import_export import resources
+
 
 class CustomUser(AbstractUser):
     img = models.ImageField(upload_to='static/img', blank=True, null=True, default='static/img/user.jpg')
@@ -201,6 +201,22 @@ class Meaning(models.Model):
     context = models.TextField(blank=True, null=True, default='')
     # обоснование
     rationale = models.TextField(blank=True, null=True, default='')
+
+
+    @staticmethod
+    def get_or_createnew(term, translator, language, meaning, comment=None):
+        try:
+            m = Meaning.objects.get(term=term, translator=translator, language=language, meaning=meaning)
+            if comment:
+                m.comment = comment
+                m.save()
+            return m
+        except Meaning.DoesNotExist as exc:
+            m = Meaning(term=term, translator=translator, language=language, meaning=meaning)
+            if comment:
+                m.comment = comment
+            m.save()
+            return m
 
     def json(self):
         res = {
