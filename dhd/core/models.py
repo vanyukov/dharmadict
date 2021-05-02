@@ -16,6 +16,10 @@ class CustomUser(AbstractUser):
     isTranslator = deleted = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
 
+    @staticmethod
+    def translators():
+        return CustomUser.objects.filter(isTranslator=True)
+
     def get_absolute_url(self):
         from django.urls import reverse
         return reverse('core:edit_user', args=[str(self.id)])
@@ -131,6 +135,15 @@ class Term(models.Model):
             return Term.objects.get(wylie=wylie)
         except Term.DoesNotExist as exc:
             return None
+    
+    @staticmethod
+    def get_or_createnew(wylie):
+        t = Term.by_wylie(wylie)
+        if not t:
+            t = Term(wylie=wylie)
+            t.save()
+            return t
+        return t
         
     def meanings(self):
         return Meaning.objects.filter(term=self)
@@ -180,6 +193,8 @@ class Meaning(models.Model):
     translator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='transtator')
     language = models.ForeignKey(Language, on_delete=models.CASCADE, related_name='language')
     meaning = models.CharField(max_length = 216)
+    # коментарий
+    comment = models.TextField(blank=True, null=True, default='')
     # толкование
     interpretation = models.TextField(blank=True, null=True, default='')
     # контекст
@@ -194,6 +209,7 @@ class Meaning(models.Model):
             'translator': self.translator.json(),
             'language': self.language.json(),
             'meaning': self.meaning,
+            'comment': self.comment,
             'interpretation': self.interpretation,
             'context': self.context,
             'rationale': self.rationale,
@@ -205,5 +221,7 @@ class Meaning(models.Model):
         return ' | '.join([
             str(self.term),
             str(self.language),
+            str(self.translator),
             str(self.meaning),
+            str(self.comment),
         ])
