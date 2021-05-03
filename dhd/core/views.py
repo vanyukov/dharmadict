@@ -136,7 +136,8 @@ def api_terms(request):
     return response
 
 def api_translators(request):
-    u_qs = active_users().filter(isTranslator=True)
+    u_qs = CustomUser.translators()
+        
     
     res={}
     for u in u_qs:

@@ -8,29 +8,49 @@ from django.db import migrations, models
 from django.templatetags.i18n import language
 from import_export import resources
 
-
 class CustomUser(AbstractUser):
     img = models.ImageField(upload_to='static/img', blank=True, null=True, default='static/img/user.jpg')
     middle = models.CharField(max_length=150, blank=True)
     note = models.TextField(blank=True, null=True, default='')
-    isTranslator = deleted = models.BooleanField(default=False)
+    isTranslator = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
+    page = models.ForeignKey('Page', on_delete=models.CASCADE, null=True, related_name='user_page')
 
     @staticmethod
     def translators():
-        return CustomUser.objects.filter(isTranslator=True)
+        return CustomUser.active_users().filter(isTranslator=True)
+    
+    @staticmethod
+    def active_users():
+        return CustomUser.objects.filter(deleted=False)
+
 
     def get_absolute_url(self):
         from django.urls import reverse
         return reverse('core:edit_user', args=[str(self.id)])
 
     def full_name(self):
-        return ' '.join([self.last_name, self.first_name, self.middle])
+        return ' '.join([self.last_name, self.first_name, self.middle]).strip()
+
+    def json_full_name_only(self):
+        res = {
+            'id': self.pk,
+            'full_name': self.full_name(),
+        }
+        return res
 
     def json(self):
         res = {
             'id': self.pk,
-            'full_name': self.full_name(),
+            'username': self.username, 
+            'last_name': self.last_name, 
+            'first_name': self.first_name,
+            'middle': self.middle,
+            'note': self.note,
+            'img': str(self.img),
+            'isTranslator': self.isTranslator,
+            # 'deleted': self.deleted,
+            'page': self.page.pk if self.page else None,
         }
         return res
     
@@ -97,7 +117,7 @@ class Page(models.Model):
     def __str__(self):
         return ' | '.join([
             str(self.url),
-            str(self.title),
+            str(self.shortTitle if self.shortTitle else self.title),
         ])
 
 class Language(models.Model):

@@ -28,7 +28,8 @@ class CustomUserResource(resources.ModelResource):
             'user_permissions', 
             'img', 
             'password',
-            'isTranslator', 
+            'isTranslator',
+            'page', 
             'deleted'
         )
 
@@ -55,10 +56,10 @@ class CustomUserAdmin(UserAdmin, ImportExportModelAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser
-    list_display = ['username', 'last_name', 'first_name', 'middle', 'email', 'isTranslator', 'img']
+    list_display = ['username', 'last_name', 'first_name', 'middle', 'email', 'isTranslator', 'page', 'img']
     # Add fields to admin page
     fieldsets = UserAdmin.fieldsets
-    fieldsets[1][1]["fields"] = ('last_name', 'first_name', 'middle', 'email', 'img', 'isTranslator')
+    fieldsets[1][1]["fields"] = ('last_name', 'first_name', 'middle', 'email', 'isTranslator', 'page', 'img')
     add_fieldsets = UserAdmin.add_fieldsets + (
         (None, {'fields': ('last_name', 'first_name', 'middle',)}),
     )

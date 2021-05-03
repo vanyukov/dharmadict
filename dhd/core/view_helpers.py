@@ -100,7 +100,7 @@ def stats_context(request, extra=None, patient=None):
     })
 
 def active_users():
-    return CustomUser.objects.filter(deleted=False)
+    return CustomUser.active_users()
 
 def active_pages():
     return Page.objects.filter(deleted=False, published=True)
