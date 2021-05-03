@@ -1,5 +1,5 @@
 <template>
-<div>
+  <div>
     <div class="container mb-2 mx-auto px-8 w-full mt-4 md:mt-12 flex flex-wrap">
       <div class="flex-initial w-full md:w-1/3 flex justify-center">
         <img src="/images/logo.jpeg" alt="logo" class="w-1/2 md:w-3/4"/>
@@ -13,55 +13,34 @@
       </div>
     </div>
 
-  <div class="container mb-2 mx-auto w-full my-4 md:my-12">
-		<ul class="flex flex-col md:flex-row flex-wrap p-4 w-full items-stretch">
-      <li class="flex-1 m-3 h-auto">
-        <NuxtLink
-          to="/pages/parallel_texts"
-        >
-          <div
-            class="select-none w-full h-full flex items-center p-4 transition duration-500 ease-in-out transform hover:-translate-y-2 rounded-2xl border-2 p-6 hover:shadow-2xl border-green-500"
-          >
-            <h4 class="w-full text-center text-xl">
-              Параллельные тексты
-            </h4>
-          </div>
+		<ul class="container mb-2 mx-auto w-full my-4 md:my-12 flex flex-col md:flex-row flex-wrap p-4 items-stretch">
+      <li class="m-3 flex-1 h-auto select-none h-full items-center p-4 transition duration-500 ease-in-out transform hover:-translate-y-0.5 hover:shadow-lg rounded-2xl border-2 p-6 border-green-500 text-center text-xl">
+        <NuxtLink to="/pages/parallel_texts">
+          Параллельные тексты
         </NuxtLink>
       </li>
-      <li class="flex-1 m-3 h-auto">
-        <NuxtLink
-          to="/pages/translators"
-        >
-          <div
-            class="select-none w-full h-full flex items-center p-4 transition duration-500 ease-in-out transform hover:-translate-y-2 rounded-2xl border-2 p-6 hover:shadow-2xl border-green-500"
-          >
-            <h4 class="w-full text-center text-xl">
-              Переводчики
-            </h4>
-          </div>
+      <li class="m-3 flex-1 h-auto select-none h-full items-center p-4 transition duration-500 ease-in-out transform hover:-translate-y-0.5 hover:shadow-lg rounded-2xl border-2 p-6 border-green-500 text-center text-xl">
+        <NuxtLink to="/pages/translators">
+          Переводчики
         </NuxtLink>
       </li>
     </ul>
-  </div>
 
-  <p v-if="$fetchState.pending">
-    <Loading />
-  </p>
-  <p v-else-if="$fetchState.error">An error occurred :(</p>
+    <p v-if="$fetchState.pending">
+      <Loading />
+    </p>
+    <p v-else-if="$fetchState.error">An error occurred :(</p>
 
-  <div class="flex w-full px-8 my-12"> 
-    <ul class="">
+    <ul class="flex flex-col w-full px-8 my-12">
       <li
         v-for="item of menu"
         :key="item.id"
-        class="w-full cursor-pointer m-3 my-6"
+        class="group w-full cursor-pointer my-6"
       >
-        <NuxtLink 
-          :to="'/' + item.url"
-        >
-          <h5 class="w-full text-2xl transform hover:translate-x-6 my-1">
+        <NuxtLink :to="'/' + item.url">
+          <h2 class="w-full text-2xl transform group-hover:translate-x-6 my-1">
             {{ item.title.trim() }}
-          </h5>
+          </h2>
           <p class="w-full text-sm text-gray-500">
             {{ item.description }} 
           </p>      
@@ -69,7 +48,6 @@
       </li>
     </ul>
   </div>
-</div>
 </template>
 
 <script>
@@ -80,7 +58,7 @@ export default {
     }
   },
   async fetch() {
-    this.menu = (await this.$api('v1', 'mainpage/links'));
+    this.menu = (await this.$api('v1', 'mainpage/links')).sort((a, b) => new Date(a.modified) - new Date(b.modified));
   },
 }
 </script>
