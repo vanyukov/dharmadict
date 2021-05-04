@@ -242,7 +242,7 @@ class Meaning(models.Model):
             m.save()
             return m
 
-    def json(self, with_translator_info=None):
+    def json(self, with_translator_info=True):
         res = {}
         if with_translator_info:
             res = {
