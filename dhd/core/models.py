@@ -54,7 +54,7 @@ class CustomUser(AbstractUser):
             'img': str(self.img),
             'isTranslator': self.isTranslator,
             # 'deleted': self.deleted,
-            'page': self.page.pk if self.page else None,
+            'page': self.page.url if self.page else None,
         }
         return res
     
