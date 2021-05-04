@@ -140,15 +140,14 @@ def api_terms(request):
 
 def api_translators(request):
     u_qs = CustomUser.translators()
-        
     
     res={}
     for u in u_qs:
-        if not u.full_name() in res:
-            res[u.full_name()] = []
-            res[u.full_name()].append(u.json())
+        if not u.username in res:
+            res[u.username] = []
+            res[u.username].append(u.json())
         else:
-            res[u.full_name()].append(u.json())
+            res[u.username].append(u.json())
 
     data=json.dumps(res, ensure_ascii=False, indent=2)
     response = HttpResponse(data, content_type='application/json; charset=utf-8')
