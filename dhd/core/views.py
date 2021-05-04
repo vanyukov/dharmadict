@@ -114,7 +114,6 @@ def api_term(request, term):
     return response
 
 def api_terms(request):
-    # if (request.GET['search'] and request.GET['search'] != "")
     t = TermFilter(request.GET, Term.objects.all()) if ('search' in request.GET and request.GET['search'] != '') else TermFilter(request.GET, Term.objects.none())
     m = MeaningFilter(request.GET, Meaning.objects.all()) if ('search' in request.GET and request.GET['search'] != '') else MeaningFilter(request.GET, Meaning.objects.none())
     
@@ -123,15 +122,11 @@ def api_terms(request):
         if not t.wylie in res:
             res[t.wylie] = []
             res[t.wylie].append(t.json(with_translator_info=True))
-        # else:
-        #     res[t.wylie].append(t.json())
 
     for m in m.qs:
         if not m.term.wylie in res:
             res[m.term.wylie] = []
             res[m.term.wylie].append(m.term.json(with_translator_info=True))
-        # else:
-        #     res[m.term.wylie].append(m.term.json())
     
     logging.debug('arr len %d', len(res))
     data=json.dumps(res, ensure_ascii=False, indent=2)
