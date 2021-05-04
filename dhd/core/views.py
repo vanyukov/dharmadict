@@ -140,7 +140,13 @@ def api_terms(request):
 
 def api_translators(request):
     u_qs = CustomUser.translators()
-    
+
+    order = "id"
+    if 'order_by' in request.GET:
+        order = request.GET['order_by']
+
+    u_qs= u_qs.order_by(order)
+   
     res={}
     for u in u_qs:
         if not u.username in res:
@@ -159,11 +165,11 @@ def api_translator_terms(request, username):
 
     qs = terms_qs
 
-    order = "-id"
+    order = "id"
     if 'order_by' in request.GET:
         order = request.GET['order_by']
-    else:
-        qs = qs.order_by(order)
+
+    qs = qs.order_by(order)
 
     page = 1
     if 'page' in request.GET:
