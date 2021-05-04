@@ -197,7 +197,7 @@ class Term(models.Model):
             str(self.sanscrit),
         ])
 
-    def json(self, with_translator_info=None):
+    def json(self, with_translator_info=False):
         res = {
             'id': self.pk,
             'wylie': self.wylie,
@@ -208,7 +208,7 @@ class Term(models.Model):
         }
         res['meanings']= []
         for m in self.meanings.all():
-            res['meanings'].append(m.json())
+            res['meanings'].append(m.json(with_translator_info=with_translator_info))
         return res
 
 

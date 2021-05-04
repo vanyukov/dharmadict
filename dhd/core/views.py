@@ -122,14 +122,14 @@ def api_terms(request):
     for t in t.qs:
         if not t.wylie in res:
             res[t.wylie] = []
-            res[t.wylie].append(t.json())
+            res[t.wylie].append(t.json(with_translator_info=True))
         # else:
         #     res[t.wylie].append(t.json())
 
     for m in m.qs:
         if not m.term.wylie in res:
             res[m.term.wylie] = []
-            res[m.term.wylie].append(m.term.json())
+            res[m.term.wylie].append(m.term.json(with_translator_info=True))
         # else:
         #     res[m.term.wylie].append(m.term.json())
     
