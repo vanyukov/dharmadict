@@ -16,6 +16,7 @@ urlpatterns = [
 
     path('api/v1/terms/', views.api_terms, name='api_terms'),
     path('api/v1/translators/', views.api_translators, name='api_terms'),
+    path('api/v1/translator/<str:username>/terms', views.api_translator_terms, name='api_translator_terms'),
 
     # Users
     # path('profile/new', views.new_user, name='new_user'),

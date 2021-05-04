@@ -10,6 +10,9 @@ from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.urls import include, path
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
+from django.db.models import Prefetch
+from django.core.paginator import Paginator
+
 
 from .admin import CustomUserResource
 from .forms import CustomUserCreationForm
@@ -151,6 +154,44 @@ def api_translators(request):
     response = HttpResponse(data, content_type='application/json; charset=utf-8')
     return response
 
+
+def api_translator_terms(request, username):
+    terms_qs = Term.objects.all().prefetch_related(Prefetch('meanings', queryset=CustomUser.translators().get(username=username).meanings.all()))
+
+    qs = terms_qs
+
+    order = "-id"
+    if 'order_by' in request.GET:
+        order = request.GET['order_by']
+    else:
+        qs = qs.order_by(order)
+
+    page = 1
+    if 'page' in request.GET:
+        page = request.GET['page']
+        
+    per_page=10
+    if 'per_page' in request.GET:
+        per_page = request.GET['per_page']
+    
+    all_data=False
+    if 'all_data' in request.GET:
+        all_data = True
+        
+    if all_data:
+        terms_p_qs = qs
+    else:
+        terms_p_qs = Paginator(qs, per_page).get_page(page)
+    
+    res = { 'translator':  CustomUser.translators().get(username=username).json(), 'count': len(qs), 'page': page, 'per_page': per_page, 'terms': {}, }
+    
+    for term in terms_p_qs:
+        # if not m.term.wylie in res:
+        res['terms'][term.wylie] = term.json(with_translator_info=False);
+        
+    data=json.dumps(res, ensure_ascii=False, indent=2)
+    response = HttpResponse(data, content_type='application/json; charset=utf-8')
+    return response
 
 def api_page_by_url(request, url):
     p = Page.objects.get(url=url)

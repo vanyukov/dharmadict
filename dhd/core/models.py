@@ -14,7 +14,7 @@ class CustomUser(AbstractUser):
     note = models.TextField(blank=True, null=True, default='')
     isTranslator = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
-    page = models.ForeignKey('Page', on_delete=models.CASCADE, null=True, related_name='user_page')
+    page = models.ForeignKey('Page', on_delete=models.CASCADE, null=True, related_name='user')
 
     @staticmethod
     def translators():
@@ -24,6 +24,10 @@ class CustomUser(AbstractUser):
     def active_users():
         return CustomUser.objects.filter(deleted=False)
 
+    @staticmethod
+    def terms():
+        pass
+        # return Terms.objects.filter(customUser deleted=False)
 
     def get_absolute_url(self):
         from django.urls import reverse
@@ -165,8 +169,8 @@ class Term(models.Model):
             return t
         return t
         
-    def meanings(self):
-        return Meaning.objects.filter(term=self)
+    # def meanings(self):
+    #     return Meaning.objects.filter(term=self)
 
     def sa2ru(self):
         res = self.sa2ru1
@@ -193,7 +197,7 @@ class Term(models.Model):
             str(self.sanscrit),
         ])
 
-    def json(self):
+    def json(self, with_translator_info=None):
         res = {
             'id': self.pk,
             'wylie': self.wylie,
@@ -203,14 +207,14 @@ class Term(models.Model):
             'tibetan': self.tibetan,
         }
         res['meanings']= []
-        for m in self.meanings():
+        for m in self.meanings.all():
             res['meanings'].append(m.json())
         return res
 
 
 class Meaning(models.Model):
-    term = models.ForeignKey(Term, on_delete=models.CASCADE, related_name='term')
-    translator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='transtator')
+    term = models.ForeignKey(Term, on_delete=models.CASCADE, related_name='meanings')
+    translator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='meanings')
     language = models.ForeignKey(Language, on_delete=models.CASCADE, related_name='language')
     meaning = models.CharField(max_length = 512)
     # коментарий
@@ -238,18 +242,31 @@ class Meaning(models.Model):
             m.save()
             return m
 
-    def json(self):
-        res = {
-            'id': self.pk,
-            # 'term': self.term.json(),
-            'translator': self.translator.json(),
-            'language': self.language.json(),
-            'meaning': self.meaning,
-            'comment': self.comment,
-            'interpretation': self.interpretation,
-            'context': self.context,
-            'rationale': self.rationale,
-        }
+    def json(self, with_translator_info=None):
+        res = {}
+        if with_translator_info:
+            res = {
+                'id': self.pk,
+                # 'term': self.term.json(),
+                'translator': self.translator.json() ,
+                'language': self.language.json(),
+                'meaning': self.meaning,
+                'comment': self.comment,
+                'interpretation': self.interpretation,
+                'context': self.context,
+                'rationale': self.rationale,
+            }
+        else:
+            res = {
+                'id': self.pk,
+#                'language': self.language.json(),
+                'meaning': self.meaning,
+                'comment': self.comment,
+                'interpretation': self.interpretation,
+                'context': self.context,
+                'rationale': self.rationale,
+            }
+            
         return res
 
 
