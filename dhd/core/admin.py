@@ -71,12 +71,15 @@ class PageAdmin(ImportExportModelAdmin):
 
 class LanguageAdmin(ImportExportModelAdmin):
     resource_class = LanguageResource
+    list_display = ['code', 'name',]
 
 class TermAdmin(ImportExportModelAdmin):
     resource_class = TermResource
+    list_display = ['wylie', 'sa2ru1', 'sa2ru2', 'sa2ru3', 'sa2en1', 'sa2en2', 'sa2en3', 'sanscrit', 'tibetan']
 
 class MeaningAdmin(ImportExportModelAdmin):
     resource_class = MeaningResource
+    list_display = ['meaning', 'term', 'translator', 'language', 'comment', 'interpretation', 'context', 'rationale']
 
 
 

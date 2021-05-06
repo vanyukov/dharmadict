@@ -272,9 +272,10 @@ class Meaning(models.Model):
 
     def __str__(self):
         return ' | '.join([
+            str(self.pk),
             str(self.term),
-            str(self.language),
-            str(self.translator),
+            # str(self.language),
+            # str(self.translator),
             str(self.meaning),
-            str(self.comment),
+            # str(self.comment),
         ])
