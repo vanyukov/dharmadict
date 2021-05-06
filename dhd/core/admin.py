@@ -66,6 +66,7 @@ class CustomUserAdmin(UserAdmin, ImportExportModelAdmin):
 
 class PageAdmin(ImportExportModelAdmin):
     resource_class = PageResource
+    list_display = ['url', 'title', 'shortTitle', 'keywords', 'description', 'created', 'modified', 'published', 'mainMenuLink', 'mainPageLink']
 
 
 class LanguageAdmin(ImportExportModelAdmin):

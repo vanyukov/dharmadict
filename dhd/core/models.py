@@ -71,7 +71,7 @@ class Page(models.Model):
     deleted = models.BooleanField(default=False)
 
     url = models.CharField(max_length = 200)
-    title = models.CharField(max_length=80, blank=True, null=True, default='')
+    title = models.CharField(max_length=140, blank=True, null=True, default='')
     shortTitle = models.CharField(max_length=20, blank=True, null=True, default='')
     keywords = models.CharField(max_length=255, blank=True, null=True, default='')
     description = models.CharField(max_length=255, blank=True, null=True, default='')
