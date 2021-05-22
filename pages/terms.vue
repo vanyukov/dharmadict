@@ -53,18 +53,17 @@
           >
             <div class="flex justify-between">
               <span>{{ meaning.meaning }}</span>
-              <span class="ml-2 font-semibold">{{
-                meaning.translator.full_name
-              }}</span>
+              <span class="ml-2 font-semibold">
+                {{ meaning.translator.first_name }}
+                {{ meaning.translator.last_name }}
+              </span>
             </div>
-            <div class="flex mt-2" v-if="meaning.interpretation">
-              {{ meaning.interpretation }}
-            </div>
-            <div class="flex mt-2" v-if="meaning.context">
-              {{ meaning.context }}
-            </div>
-            <div class="flex mt-2" v-if="meaning.rationale">
-              {{ meaning.rationale }}
+
+            <div v-for="(value, name) in meaningsFields" v-bind:key="name">
+              <div class="flex flex-col mt-2" v-if="meaning[name]">
+                <p class="font-bold">{{ value }}:</p>
+                {{ meaning[name] }}
+              </div>
             </div>
           </div>
         </div>
@@ -96,6 +95,12 @@ export default {
   data() {
     return {
       translateFields: ['sa2ru', 'sanscrit', 'tibetan', 'wylie', 'sa2en'],
+      meaningsFields: {
+        comment: 'Комментарий',
+        context: 'Контекст',
+        interpretation: 'Интерпретация',
+        rationale: 'Логическое обоснование',
+      },
       separator: '/',
       hiddenWordsId: [],
     }
