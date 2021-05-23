@@ -129,7 +129,7 @@ class Language(models.Model):
     name = models.CharField(max_length = 16)
     def __str__(self):
         return ' | '.join([
-            str(self.code),
+            str(self.code), 
             str(self.name),
         ])
 
