@@ -89,6 +89,7 @@
         >
           {{ item.shortTitle || item.title }}
         </NuxtLink>
+        <SearchBar />
       </div>
     </div>
   </nav>
