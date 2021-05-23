@@ -1,7 +1,7 @@
 <template>
-  <div class="hidden mt-2 md:flex justify-center content-center">
+  <div class="mt-2 flex md:justify-center content-center">
     <input
-      class="px-2 rounded-sm"
+      class="search-input px-2 rounded-sm"
       type="text"
       placeholder=""
       v-model="query"
@@ -34,3 +34,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.search-input {
+  max-width: calc(100vw - 90px);
+}
+</style>
