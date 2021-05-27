@@ -28,7 +28,8 @@ class TermFilter(FilterSet):
     def search_filter(self, queryset:QuerySet, name, value):
         if value == "":
             return queryset.none()
-        qval = Q(wylie__istartswith=value) | Q(sa2ru1__istartswith=value) | Q(sa2en1__istartswith=value) | Q(sa2ru2__istartswith=value) | Q(sa2en2__istartswith=value) | Q(sa2ru3__istartswith=value) | Q(sa2en3__istartswith=value) | Q(tibetan__istartswith=value) | Q(sanscrit__istartswith=value)
+        # qval = Q(wylie__istartswith=value) | Q(sa2ru1__istartswith=value) | Q(sa2en1__istartswith=value) | Q(sa2ru2__istartswith=value) | Q(sa2en2__istartswith=value) | Q(sa2ru3__istartswith=value) | Q(sa2en3__istartswith=value) | Q(tibetan__istartswith=value) | Q(sanscrit__istartswith=value)
+        qval = Q(wylie__iexact=value) | Q(sa2ru1__iexact=value) | Q(sa2en1__iexact=value) | Q(sa2ru2__iexact=value) | Q(sa2en2__iexact=value) | Q(sa2ru3__iexact=value) | Q(sa2en3__iexact=value) | Q(tibetan__iexact=value) | Q(sanscrit__iexact=value)
             
         return queryset.filter(qval)
 
@@ -61,12 +62,14 @@ class MeaningFilter(FilterSet):
         if value == "":
             return queryset.none()
 #        qval = Q(meaning__icontains=value)
-        qval = Q(meaning__istartswith=value)
+        # qval = Q(meaning__istartswith=value)
+        qval = Q(meaning__iexact=value)
         return queryset.filter(qval)
 
     class Meta:
         model = Meaning
         fields = {
-            "meaning": ["icontains"],
+            "meaning": ["iexact"],
+            # "meaning": ["icontains"],
         }
 
