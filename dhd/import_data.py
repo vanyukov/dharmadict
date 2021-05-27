@@ -85,20 +85,20 @@ def import_terms_from_file(file_name):
 def main():
     try:
         from django.core.management import execute_from_command_line
-        import_terms_from_file('db/import_base/terms.csv')
+        import_terms_from_file("%s/terms.csv" % argv[1])
     
-        import_meanings_from_file_for_user('db/import_base/meanings/akt.csv', 'akt', 'ru')
-        import_meanings_from_file_for_user('db/import_base/meanings/bem.csv', 'bem', 'ru', nocomment=True)
-        import_meanings_from_file_for_user('db/import_base/meanings/brz.csv', 'brz', 'en')
-        import_meanings_from_file_for_user('db/import_base/meanings/don.csv', 'don', 'ru')
-        import_meanings_from_file_for_user('db/import_base/meanings/hop.csv', 'hop', 'en')
-        import_meanings_from_file_for_user('db/import_base/meanings/jrk.csv', 'jrk', 'ru', nocomment=True)
-        import_meanings_from_file_for_user('db/import_base/meanings/mk.csv', 'mk', 'ru')
-        import_meanings_from_file_for_user('db/import_base/meanings/mm.csv', 'mm', 'ru', nocomment=True)
-        import_meanings_from_file_for_user('db/import_base/meanings/mng.csv', 'mng', 'ru', nocomment=True)
-        import_meanings_from_file_for_user('db/import_base/meanings/rag.csv', 'rag', 'ru', nocomment=True)
-        import_meanings_from_file_for_user('db/import_base/meanings/tengon.csv', 'tengon', 'ru', nocomment=True)
-        import_meanings_from_file_for_user('db/import_base/meanings/zag.csv', 'zag', 'ru')
+        import_meanings_from_file_for_user('%s/meanings/akt.csv' % argv[1], 'akt', 'ru')
+        import_meanings_from_file_for_user('%s/meanings/bem.csv' % argv[1], 'bem', 'ru', nocomment=True)
+        import_meanings_from_file_for_user('%s/meanings/brz.csv' % argv[1], 'brz', 'en')
+        import_meanings_from_file_for_user('%s/meanings/don.csv' % argv[1], 'don', 'ru')
+        import_meanings_from_file_for_user('%s/meanings/hop.csv' % argv[1], 'hop', 'en')
+        import_meanings_from_file_for_user('%s/meanings/jrk.csv' % argv[1], 'jrk', 'ru', nocomment=True)
+        import_meanings_from_file_for_user('%s/meanings/mk.csv' % argv[1], 'mk', 'ru')
+        import_meanings_from_file_for_user('%s/meanings/mm.csv' % argv[1], 'mm', 'ru', nocomment=True)
+        import_meanings_from_file_for_user('%s/meanings/mng.csv' % argv[1], 'mng', 'ru', nocomment=True)
+        import_meanings_from_file_for_user('%s/meanings/rag.csv' % argv[1], 'rag', 'ru', nocomment=True)
+        import_meanings_from_file_for_user('%s/meanings/tengon.csv' % argv[1], 'tengon', 'ru', nocomment=True)
+        import_meanings_from_file_for_user('%s/meanings/zag.csv' % argv[1], 'zag', 'ru')
 
     except ImportError as exc:
         raise ImportError(
