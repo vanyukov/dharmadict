@@ -13,24 +13,20 @@
       </div>
     </div>
 
-		<ul class="container mb-2 mx-auto w-full my-4 md:my-12 flex flex-col md:flex-row flex-wrap p-4 items-stretch">
+		<div class="container mb-2 mx-auto w-full my-4 md:my-12 flex flex-col md:flex-row flex-wrap p-4 items-stretch">
       <NuxtLink 
         to="/pages/parallel_texts"
         class="m-3 flex-1 h-auto select-none h-full items-center p-4 transition duration-500 ease-in-out transform hover:-translate-y-0.5 hover:shadow-lg rounded-2xl border-2 p-6 border-green-500 text-center text-xl"
       >
-        <li class="h-auto select-none h-full items-center text-center text-xl">
-            Параллельные тексты
-        </li>
+        Параллельные тексты
       </NuxtLink>
       <NuxtLink
         to="/pages/translators"
         class="m-3 flex-1 h-auto select-none h-full items-center p-4 transition duration-500 ease-in-out transform hover:-translate-y-0.5 hover:shadow-lg rounded-2xl border-2 p-6 border-green-500 text-center text-xl"
       >
-        <li class="h-auto select-none h-full items-center text-center text-xl">
-          Переводчики
-        </li>
+        Переводчики
       </NuxtLink>
-    </ul>
+    </div>
 
     <p v-if="$fetchState.pending">
       <Loading />
