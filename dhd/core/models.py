@@ -9,7 +9,7 @@ from django.templatetags.i18n import language
 from import_export import resources
 
 class CustomUser(AbstractUser):
-    img = models.ImageField(upload_to='static/', blank=True, null=True, default='static/user.jpg')
+    img = models.ImageField(upload_to='static/img', blank=True, null=True, default='static/img/user.jpg')
     middle = models.CharField(max_length=150, blank=True)
     note = models.TextField(blank=True, null=True, default='')
     isTranslator = models.BooleanField(default=False)
