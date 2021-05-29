@@ -111,7 +111,7 @@ export default {
       const terms = await $api('v1', `terms/?search=${query.search}`)
       return { terms }
     } catch (e) {
-      console.error('🚀 -> file: terms.vue -> line 110 -> asyncData -> e', e)
+      console.error('file: terms.vue -> asyncData -> e', e)
 
       return error({
         statusCode: 404,
