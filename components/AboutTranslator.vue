@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col items-center">
         <img 
-            :src="translator.img" 
+            :src="`/${translator.img}`" 
             class="h-48 w-48 rounded-full shadow-md m-6"
         />
         <div class="shadow-md rounded-md p-4 py-8 m-6 w-full html-content" v-html="about.content">

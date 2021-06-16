@@ -11,7 +11,7 @@
             <div class="word-title relative">
                 <span
                     class="text-xl font-bold p-1"
-                    v-for="field of translateFields"
+                    v-for="field of translateFields.filter(item => terms[word][item])"
                     v-bind:key="field"
                 >
                     {{ terms[word][field] }}
@@ -53,14 +53,15 @@
                 </div>
             </div>
         </div> 
-        <Pagination 
-            :class="$fetchState.pending ? 'fixed bottom-3' : ''"
+        <Pagination       
             :count="count"
             :per_page="per_page"
             :openPage="openPage"
         />     
     </div>
 </template>
+
+
 
 <script>
 export default {
