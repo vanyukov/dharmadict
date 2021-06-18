@@ -16,16 +16,6 @@
     </div>
 
     <div class="flex flex-row flex-nowrap mt-6">
-      <button
-        class="flex-1 p-3 border-b-2 focus:outline-none inline-flex items-center space-x-2 justify-center text-gray-600"
-        :class="tab === 'terms' ? 'border-green-500' : ''"
-        @click="setActive('terms')"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-        </svg>
-        Термины
-      </button>
       <button 
         class="flex-1 p-3 border-b-2 focus:outline-none inline-flex items-center space-x-2 justify-center text-gray-600"
         :class="tab === 'translator' ? 'border-green-500' : ''"
@@ -38,12 +28,22 @@
         </svg>
         Переводчик
       </button>
+      <button
+        class="flex-1 p-3 border-b-2 focus:outline-none inline-flex items-center space-x-2 justify-center text-gray-600"
+        :class="tab === 'terms' ? 'border-green-500' : ''"
+        @click="setActive('terms')"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+        </svg>
+        Термины
+      </button>
     </div>  
     <TranslatorTerms 
       v-if="tab==='terms'" 
       :username="data.translator.username"
       :count="data.count"
-      :per_page="data.per_page"
+      :per_page="'10'"
       :api="$api"/>
     <AboutTranslator v-else :translator="data.translator" :about="about"/>
   </div>
@@ -83,7 +83,7 @@ export default {
   },
   data() {
     return {
-      tab: 'terms'
+      tab: 'translator'
     }
   },
   methods: {

@@ -1,30 +1,28 @@
 <template>
-    <div class="text-gray-600">
-        <span class="inline-block">
+    <div class="text-gray-600 w-full p-2 flex flex-col justify-center items-center">
+        <div class="flex flex-row no-wrap w-full" >
             <button 
                 type="button" 
-                class="py-2 px-3 mx-1 focus:outline-none bg-white transition duration-500 ease-in-out transform hover:-translate-y-0.5 hover:shadow-lg rounded-sm border p-6" 
-                @click="changePage(page, -1)"
+                class="py-2 px-3 m-1 focus:outline-none bg-white transition duration-500 ease-in-out transform hover:-translate-y-0.5 hover:shadow-lg rounded-sm border p-6" 
+                @click="changePage(-1)"
             > Назад </button>
-        </span>
-        <span class="inline-block">
+            <input 
+                type="range" 
+                class="flex-grow w-full max-w-lg cursor-pointer" 
+                v-model="slider" 
+                min="1" :max="pages.length" 
+                @change="sliderChange"
+            >
             <button 
                 type="button" 
-                class="inline-block py-2 px-3 mx-1 focus:outline-none bg-white transition duration-500 ease-in-out transform hover:-translate-y-0.5 hover:shadow-lg rounded-sm border p-6"
-                v-for="pageNumber in pages.slice(getFirst(page), getLast(page))" 
-                @click="changePage(pageNumber, 0)"
-                v-bind:key="pageNumber"
-                :class="pageNumber === page ? 'text-green-500' : ''"
-            > {{pageNumber}} </button>
-        </span>
-        <span class="inline-block">
-            <button 
-                type="button" 
-                @click="changePage(page, 1)" 
+                @click="changePage(1)" 
 
-                class="py-2 px-3 mx-1 focus:outline-none bg-white transition duration-500 ease-in-out transform hover:-translate-y-0.5 hover:shadow-lg rounded-sm border p-6"
+                class="py-2 px-3 m-1 focus:outline-none bg-white transition duration-500 ease-in-out transform hover:-translate-y-0.5 hover:shadow-lg rounded-sm border p-6"
             > Вперёд </button>
-        </span>
+        </div>
+        <output class="text-center max-w-lg py-2 px-3 m-1 focus:outline-none bg-white rounded-sm p-6">
+            Страница {{ slider }} из {{pages.length}}
+        </output>
     </div>
 </template>
 
@@ -47,37 +45,25 @@ export default {
     data () {
 		return {
 			posts : [''],
+            slider: '1',
 			page: 1,
-			pages: [],		
+			pages: [],	
 		}
 	},
 	methods:{
-        changePage(page, incr) {
-            if (page === 1 && incr === -1) {
-                return
-            } else if (page === this.pages.length && incr === 1) {
-                return
-            } else {
-                this.page = page + incr;
-                this.openPage(this.page);
-            }
+        sliderChange() {
+            this.page = Number(this.slider)
+            this.openPage(this.page)
         },
-        getFirst (page) {
-            if (page === 1) {
-                return 0
-            } else if (page === this.pages.length) {
-                return page - 3
+        changePage(incr) {
+            if (this.page === 1 && incr === -1) {
+                return
+            } else if (this.page === this.pages.length && incr === 1) {
+                return
             } else {
-                return page - 2
-            }
-        },
-        getLast (page) {
-            if (page === 1) {
-                return 3
-            } else if (page === this.pages.length) {
-                return page
-            } else {
-                return page + 1
+                this.page = this.page + incr
+                this.slider = this.page
+                this.openPage(this.page)
             }
         },
 		setPages () {
