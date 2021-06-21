@@ -4,7 +4,7 @@
       class="container mb-2 mx-auto px-8 w-full mt-4 md:mt-12 flex flex-wrap justify-evenly"
     >
       <div class="flex-initial w-2/3 md:w-1/3 flex">
-        <img src="/images/manj.png" alt="logo" class="" />
+        <img src="/images/manj.png" id="image" alt="logo" class="w-full h-full"/>
       </div>
       <div class="flex-2 flex flex-col justify-center w-full md:w-2/3 py-6 md:pl-9">
         <h1
@@ -76,5 +76,9 @@ export default {
 <style scoped>
 a {
   text-decoration: none;
+}
+.image {
+  width: 100%;
+  height: 100%;
 }
 </style>
