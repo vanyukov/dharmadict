@@ -9,7 +9,17 @@
                 to="/"
                 exact=""
                 active-class=" bg-gray-900 "
-                class="px-3 py-2 rounded-md text-sm font-medium text-white focus:outline-none focus:text-white focus:bg-gray-700"
+                class="
+                  px-3
+                  py-2
+                  rounded-md
+                  text-sm
+                  font-medium
+                  text-white
+                  focus:outline-none
+                  focus:text-white
+                  focus:bg-gray-700
+                "
               >
                 Главная
               </NuxtLink>
@@ -22,19 +32,49 @@
                 :key="item.id"
                 :to="'/' + item.url"
                 active-class=" bg-gray-900 "
-                class="ml-4 px-3 py-2 rounded-md text-sm font-medium text-white hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"
+                class="
+                  ml-4
+                  px-3
+                  py-2
+                  rounded-md
+                  text-sm
+                  font-medium
+                  text-white
+                  hover:text-white
+                  hover:bg-gray-700
+                  focus:outline-none
+                  focus:text-white
+                  focus:bg-gray-700
+                "
               >
                 {{ item.shortTitle || item.title }}
               </NuxtLink>
             </div>
-            <SearchBar />
+            <SearchBar
+              v-if="isShowSearchBar"
+              class="mt-2 flex justify-center content-center"
+              classBtn="ml-2 px-2 md:px-4 py-1 text-lg rounded-md bg-white text-green-500"
+            />
           </div>
         </div>
         <div class="-mr-2 flex md:hidden">
           <!-- Mobile menu button -->
           <button
             @click="toggle"
-            class="inline-flex items-center bg-gray-900 justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:bg-gray-700 focus:text-white"
+            class="
+              inline-flex
+              items-center
+              bg-gray-900
+              justify-center
+              p-2
+              rounded-md
+              text-gray-400
+              hover:text-white
+              hover:bg-gray-700
+              focus:outline-none
+              focus:bg-gray-700
+              focus:text-white
+            "
           >
             <svg
               :class="[isOpen ? 'hidden' : 'block', 'h-6 w-6']"
@@ -72,7 +112,17 @@
           to="/"
           exact=""
           active-class=" bg-gray-900 "
-          class="px-3 py-2 rounded-md text-sm font-medium text-white focus:outline-none focus:text-white focus:bg-gray-700"
+          class="
+            px-3
+            py-2
+            rounded-md
+            text-sm
+            font-medium
+            text-white
+            focus:outline-none
+            focus:text-white
+            focus:bg-gray-700
+          "
         >
           Главная
         </NuxtLink>
@@ -85,11 +135,27 @@
           :key="item.id"
           :to="'/' + item.url"
           active-class=" bg-gray-900 "
-          class="px-3 py-2 rounded-md text-sm font-medium text-white hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"
+          class="
+            px-3
+            py-2
+            rounded-md
+            text-sm
+            font-medium
+            text-white
+            hover:text-white
+            hover:bg-gray-700
+            focus:outline-none
+            focus:text-white
+            focus:bg-gray-700
+          "
         >
           {{ item.shortTitle || item.title }}
         </NuxtLink>
-        <SearchBar />
+        <SearchBar
+          v-if="isShowSearchBar"
+          class="mt-1 flex justify-center content-center"
+          classBtn="ml-2 px-2 md:px-4 py-1 text-lg rounded-md bg-white text-green-500"
+        />
       </div>
     </div>
   </nav>
@@ -111,6 +177,14 @@ export default {
   },
   async fetch() {
     this.menu = await this.$api('v1', 'mainmenu/links')
+  },
+  computed: {
+    isShowSearchBar: {
+      cache: false,
+      get: function () {
+        return this.$route.fullPath !== '/'
+      },
+    },
   },
   methods: {
     toggle() {

@@ -1,15 +1,13 @@
 <template>
-  <div class="container mx-auto sm:px-6">
+  <div class="container mx-auto">
     <Navbar />
     <main>
-      <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      <div class="max-w-7xl mx-auto py-6 px-6 lg:px-8">
         <Nuxt />
       </div>
     </main>
   </div>
 </template>
-
-<style lang="scss" scoped></style>
 
 <script>
 import Navbar from '@/components/Navbar'

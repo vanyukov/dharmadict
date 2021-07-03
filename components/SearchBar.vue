@@ -1,23 +1,19 @@
 <template>
-  <div class="mt-2 flex md:justify-center content-center">
+  <div>
     <input
-      class="search-input px-2 rounded-sm"
+      class="search-input text-lg px-2 rounded-lg border-green-500 border-2"
       type="text"
       placeholder=""
       v-model="query"
       v-on:keyup.enter="search"
     />
-    <button
-      class="ml-2 px-2 rounded-sm bg-white text-green-500"
-      @click="search"
-    >
-      Найти
-    </button>
+    <button v-bind:class="classBtn" @click="search">Найти</button>
   </div>
 </template>
 
 <script>
 export default {
+  props: ['classBtn'],
   data() {
     return {
       query: '',
