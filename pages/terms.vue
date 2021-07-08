@@ -22,14 +22,15 @@
         v-bind:key="item.id"
       >
         <div class="word-title relative">
-          <span
-            class="text-xl font-bold p-1"
-            v-for="field of translateFields"
-            v-bind:key="field"
-          >
-            {{ item[field] }}
-            {{ separator }}
-          </span>
+          <template v-for="field of translateFields">
+            <span v-bind:key="field"
+              class="text-xl font-bold p-1"
+              v-if="item[field]"
+            >
+              {{ item[field] }}
+              {{ separator }}
+            </span>
+          </template>
           <button
             class="arrow arrow_open absolute text-xl font-bold p-1 justify-self-end border-2 rounded-md px-2"
             @click="toggleTranslete(item.id)"
