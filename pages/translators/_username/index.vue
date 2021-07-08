@@ -1,15 +1,11 @@
 <template>
   <div>
     <div class="flex flex-row items-center">
-      <button
-        @click="goBack()"
+      <NuxtLink
+        to="/pages/translators"
         class="
-          transition
-          duration-500
           ease-in-out
           transform
-          hover:-translate-y-0.5
-          hover:shadow-lg
           text-white
           w-10
           h-10
@@ -38,7 +34,7 @@
             d="M10 19l-7-7m0 0l7-7m-7 7h18"
           />
         </svg>
-      </button>
+      </NuxtLink>
       <h1 class="inline m-3 text-xl">
         {{
           `${data.translator.first_name} ${data.translator.middle} ${data.translator.last_name}`
@@ -47,7 +43,9 @@
     </div>
 
     <div class="flex flex-row flex-nowrap mt-6">
-      <button
+      <NuxtLink
+        :to="'/translators/' + this.$route.params.username"
+        prefetch
         class="
           flex-1
           p-3
@@ -59,8 +57,9 @@
           justify-center
           text-gray-600
         "
-        :class="tab === 'translator' ? 'border-green-500' : ''"
-        @click="setActive('translator')"
+        :class="
+          this.$route.name === 'translators-username' ? 'border-green-500' : ''
+        "
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -81,8 +80,10 @@
           />
         </svg>
         Переводчик
-      </button>
-      <button
+      </NuxtLink>
+      <NuxtLink
+        :to="'/translators/' + this.$route.params.username + '/terms'"
+        prefetch
         class="
           flex-1
           p-3
@@ -94,8 +95,7 @@
           justify-center
           text-gray-600
         "
-        :class="tab === 'terms' ? 'border-green-500' : ''"
-        @click="setActive('terms')"
+        :class="this.$route.name === 'terms' ? 'border-green-500' : ''"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -112,16 +112,20 @@
           />
         </svg>
         Термины
-      </button>
+      </NuxtLink>
     </div>
     <TranslatorTerms
-      v-if="tab === 'terms'"
+      v-if="this.$route.name === 'terms'"
       :username="data.translator.username"
       :count="data.count"
       :per_page="'10'"
       :api="$api"
     />
-    <AboutTranslator v-else :translator="data.translator" :about="about" />
+    <AboutTranslator
+      v-if="this.$route.name === 'translators-username'"
+      :translator="data.translator"
+      :about="about"
+    />
   </div>
 </template>
 
@@ -156,19 +160,6 @@ export default {
         },
       ],
     }
-  },
-  data() {
-    return {
-      tab: 'translator',
-    }
-  },
-  methods: {
-    setActive(tab) {
-      this.tab = tab
-    },
-    goBack() {
-      this.$router.go(-2)
-    },
   },
 }
 </script>
