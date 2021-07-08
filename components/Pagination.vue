@@ -2,7 +2,7 @@
   <div
     class="text-gray-600 w-full p-2 flex flex-col justify-center items-center"
   >
-    <div class="flex flex-row no-wrap w-full">
+    <div class="flex flex-row no-wrap w-full justify-center items-center">
       <button
         type="button"
         class="
@@ -27,7 +27,7 @@
       </button>
       <input
         type="range"
-        class="flex-grow w-full max-w-lg cursor-pointer"
+        class="rounded-lg border-2 overflow-hidden appearance-none h-3 w-full cursor-pointer"
         v-model="slider"
         min="1"
         :max="pages.length"
@@ -128,4 +128,19 @@ export default {
 </script>
 
 <style scoped>
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+     
+        input[type="range"]::-webkit-slider-thumb {
+            width: 15px;
+            -webkit-appearance: none;
+  			appearance: none;
+            height: 15px;
+            cursor: ew-resize;
+            background: #e5e7eb;
+            box-shadow: -405px 0 0 400px #10b981;
+            border-radius: 50%;
+            border: 1px solid #d1d5db;
+            
+        }
+    }
 </style>
