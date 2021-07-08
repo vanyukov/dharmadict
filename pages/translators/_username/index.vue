@@ -152,14 +152,7 @@ export default {
         {
           hid: '',
           name: 'content',
-          content:
-            'Словарь буддийской терминологии. Переводчик ${this.data.translator.first_name} ${this.data.translator.last_name}',
-        },
-        {
-          hid: '',
-          name: 'name',
-          content:
-            'Словарь буддийской терминологии. Переводчик ${this.data.translator.first_name} ${this.data.translator.last_name}',
+          content: `Словарь буддийской терминологии. Переводчик ${this.data.translator.first_name} ${this.data.translator.last_name}`,
         },
       ],
     }
