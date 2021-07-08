@@ -121,6 +121,10 @@ export default {
     }
   },
 
+  key(route) {   
+    return route.query.search
+  },
+
   watchQuery: ['search'],
 
   methods: {
