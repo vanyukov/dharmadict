@@ -119,6 +119,9 @@ class Page(models.Model):
                 'published': self.published,
                 'deleted': self.deleted,
                 'img': str(us[0].img),
+                'first_name': str(us[0].first_name),
+                'middle_name': str(us[0].middle),
+                'last_name': str(us[0].last_name),
 
                 'url': self.url,
                 'title': self.title,
