@@ -6,5 +6,7 @@
         "enable": true,
         "baseUri": "/api",
         "proxyUri": "https://test.dharmadict.ru/api"
-    }
+    },
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true
 }
