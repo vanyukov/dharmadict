@@ -8,18 +8,21 @@ from django.db import migrations, models
 from django.templatetags.i18n import language
 from import_export import resources
 
+
 class CustomUser(AbstractUser):
-    img = models.ImageField(upload_to='static/img', blank=True, null=True, default='static/img/user.jpg')
+    img = models.ImageField(
+        upload_to='static/img', blank=True, null=True, default='static/img/user.jpg')
     middle = models.CharField(max_length=150, blank=True)
     note = models.TextField(blank=True, null=True, default='')
     isTranslator = models.BooleanField(default=False)
     deleted = models.BooleanField(default=False)
-    page = models.ForeignKey('Page', on_delete=models.CASCADE, null=True, blank=True, related_name='user_page')
+    page = models.ForeignKey('Page', on_delete=models.CASCADE,
+                             null=True, blank=True, related_name='user_page')
 
     @staticmethod
     def translators():
         return CustomUser.active_users().filter(isTranslator=True)
-    
+
     @staticmethod
     def active_users():
         return CustomUser.objects.filter(deleted=False)
@@ -46,8 +49,8 @@ class CustomUser(AbstractUser):
     def json(self):
         res = {
             'id': self.pk,
-            'username': self.username, 
-            'last_name': self.last_name, 
+            'username': self.username,
+            'last_name': self.last_name,
             'first_name': self.first_name,
             'middle': self.middle,
             'note': self.note,
@@ -57,24 +60,29 @@ class CustomUser(AbstractUser):
             'page': self.page.url if self.page else None,
         }
         return res
-    
+
 
 class Page(models.Model):
     created = models.DateTimeField(auto_now_add=True, editable=False)
-    creator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, related_name='creator')
+    creator = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, null=True, related_name='creator')
     modified = models.DateTimeField(null=True, blank=True)
-    modificator = models.ForeignKey(CustomUser, null=True, blank=True, on_delete=models.CASCADE, related_name='modificator')
+    modificator = models.ForeignKey(
+        CustomUser, null=True, blank=True, on_delete=models.CASCADE, related_name='modificator')
     published = models.BooleanField(default=False)
     mainMenuLink = models.BooleanField(default=False)
     mainPageLink = models.BooleanField(default=False)
 
     deleted = models.BooleanField(default=False)
 
-    url = models.CharField(max_length = 200)
+    url = models.CharField(max_length=200)
     title = models.CharField(max_length=140, blank=True, null=True, default='')
-    shortTitle = models.CharField(max_length=20, blank=True, null=True, default='')
-    keywords = models.CharField(max_length=255, blank=True, null=True, default='')
-    description = models.CharField(max_length=255, blank=True, null=True, default='')
+    shortTitle = models.CharField(
+        max_length=20, blank=True, null=True, default='')
+    keywords = models.CharField(
+        max_length=255, blank=True, null=True, default='')
+    description = models.CharField(
+        max_length=255, blank=True, null=True, default='')
     content = models.TextField(blank=True, null=True, default='')
 
     def get_absolute_url(self):
@@ -90,7 +98,7 @@ class Page(models.Model):
             'modificator': self.modificator.pk if self.modificator else None,
             'published': self.published,
             'deleted': self.deleted,
-            
+
             'url': self.url,
             'title': self.title,
             'shortTitle': self.shortTitle,
@@ -100,36 +108,58 @@ class Page(models.Model):
         return res
 
     def json(self):
-        res = {
-            'id': self.pk,
-            'created': str(self.created),
-            'creator': self.creator.pk if self.creator else None,
-            'modified': str(self.modified),
-            'modificator': self.modificator.pk if self.modificator else None,
-            'published': self.published,
-            'deleted': self.deleted,
-            
-            'url': self.url,
-            'title': self.title,
-            'shortTitle': self.shortTitle,
-            'description': self.description,
-            'keywords': self.keywords,
-            'content': self.content,
-        }
+        u = CustomUser.objects.filter(page_id=self.id)
+        if u[0]:
+            res = {
+                'id': self.pk,
+                'created': str(self.created),
+                'creator': self.creator.pk if self.creator else None,
+                'modified': str(self.modified),
+                'modificator': self.modificator.pk if self.modificator else None,
+                'published': self.published,
+                'deleted': self.deleted,
+                'img': str(u[0].img),
+
+                'url': self.url,
+                'title': self.title,
+                'shortTitle': self.shortTitle,
+                'description': self.description,
+                'keywords': self.keywords,
+                'content': self.content,
+            }
+        else:
+            res = {
+                'id': self.pk,
+                'created': str(self.created),
+                'creator': self.creator.pk if self.creator else None,
+                'modified': str(self.modified),
+                'modificator': self.modificator.pk if self.modificator else None,
+                'published': self.published,
+                'deleted': self.deleted,
+
+                'url': self.url,
+                'title': self.title,
+                'shortTitle': self.shortTitle,
+                'description': self.description,
+                'keywords': self.keywords,
+                'content': self.content,
+            }
         return res
-        
+
     def __str__(self):
         return ' | '.join([
             str(self.url),
             str(self.shortTitle if self.shortTitle else self.title),
         ])
 
+
 class Language(models.Model):
-    code = models.CharField(max_length = 5)
-    name = models.CharField(max_length = 16)
+    code = models.CharField(max_length=5)
+    name = models.CharField(max_length=16)
+
     def __str__(self):
         return ' | '.join([
-            str(self.code), 
+            str(self.code),
             str(self.name),
         ])
 
@@ -141,17 +171,17 @@ class Language(models.Model):
         }
         return res
 
+
 class Term(models.Model):
-    wylie = models.CharField(max_length = 216, unique=True)
-    sa2ru1 = models.CharField(max_length = 216, blank=True, default='')
-    sa2ru2 = models.CharField(max_length = 216, blank=True, default='')
-    sa2ru3 = models.CharField(max_length = 216, blank=True, default='')
-    sa2en1 = models.CharField(max_length = 216, blank=True, default='')
-    sa2en2 = models.CharField(max_length = 216, blank=True, default='')
-    sa2en3 = models.CharField(max_length = 216, blank=True, default='')
-    sanscrit = models.CharField(max_length = 216, blank=True, default='')
-    tibetan = models.CharField(max_length = 216, blank=True, default='')
-    
+    wylie = models.CharField(max_length=216, unique=True)
+    sa2ru1 = models.CharField(max_length=216, blank=True, default='')
+    sa2ru2 = models.CharField(max_length=216, blank=True, default='')
+    sa2ru3 = models.CharField(max_length=216, blank=True, default='')
+    sa2en1 = models.CharField(max_length=216, blank=True, default='')
+    sa2en2 = models.CharField(max_length=216, blank=True, default='')
+    sa2en3 = models.CharField(max_length=216, blank=True, default='')
+    sanscrit = models.CharField(max_length=216, blank=True, default='')
+    tibetan = models.CharField(max_length=216, blank=True, default='')
 
     @staticmethod
     def by_wylie(wylie):
@@ -159,7 +189,7 @@ class Term(models.Model):
             return Term.objects.get(wylie=wylie)
         except Term.DoesNotExist as exc:
             return None
-    
+
     @staticmethod
     def get_or_createnew(wylie):
         t = Term.by_wylie(wylie)
@@ -168,7 +198,7 @@ class Term(models.Model):
             t.save()
             return t
         return t
-        
+
     # def meanings(self):
     #     return Meaning.objects.filter(term=self)
 
@@ -206,17 +236,21 @@ class Term(models.Model):
             'sanscrit': self.sanscrit,
             'tibetan': self.tibetan,
         }
-        res['meanings']= []
+        res['meanings'] = []
         for m in self.meanings.all():
-            res['meanings'].append(m.json(with_translator_info=with_translator_info))
+            res['meanings'].append(
+                m.json(with_translator_info=with_translator_info))
         return res
 
 
 class Meaning(models.Model):
-    term = models.ForeignKey(Term, on_delete=models.CASCADE, related_name='meanings')
-    translator = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='meanings')
-    language = models.ForeignKey(Language, on_delete=models.CASCADE, related_name='language')
-    meaning = models.CharField(max_length = 512)
+    term = models.ForeignKey(
+        Term, on_delete=models.CASCADE, related_name='meanings')
+    translator = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE, related_name='meanings')
+    language = models.ForeignKey(
+        Language, on_delete=models.CASCADE, related_name='language')
+    meaning = models.CharField(max_length=512)
     # коментарий
     comment = models.TextField(blank=True, null=True, default='')
     # толкование
@@ -226,17 +260,18 @@ class Meaning(models.Model):
     # обоснование
     rationale = models.TextField(blank=True, null=True, default='')
 
-
     @staticmethod
     def get_or_createnew(term, translator, language, meaning, comment=None):
         try:
-            m = Meaning.objects.get(term=term, translator=translator, language=language, meaning=meaning)
+            m = Meaning.objects.get(
+                term=term, translator=translator, language=language, meaning=meaning)
             if comment:
                 m.comment = comment
                 m.save()
             return m
         except Meaning.DoesNotExist as exc:
-            m = Meaning(term=term, translator=translator, language=language, meaning=meaning)
+            m = Meaning(term=term, translator=translator,
+                        language=language, meaning=meaning)
             if comment:
                 m.comment = comment
             m.save()
@@ -248,7 +283,7 @@ class Meaning(models.Model):
             res = {
                 'id': self.pk,
                 # 'term': self.term.json(),
-                'translator': self.translator.json() ,
+                'translator': self.translator.json(),
                 'language': self.language.json(),
                 'meaning': self.meaning,
                 'comment': self.comment,
@@ -259,16 +294,15 @@ class Meaning(models.Model):
         else:
             res = {
                 'id': self.pk,
-#                'language': self.language.json(),
+                #                'language': self.language.json(),
                 'meaning': self.meaning,
                 'comment': self.comment,
                 'interpretation': self.interpretation,
                 'context': self.context,
                 'rationale': self.rationale,
             }
-            
-        return res
 
+        return res
 
     def __str__(self):
         return ' | '.join([
