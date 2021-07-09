@@ -53,7 +53,7 @@
         </div>
       </div>
     </div>
-    <Pagination :count="count" :per_page="per_page" :openPage="openPage" />
+    <Pagination :count="count" :per_page="per_page" :page="page" />
   </div>
 </template>
 
@@ -61,49 +61,33 @@
 
 <script>
 export default {
-  props: {
-    username: {
-      type: String,
-      required: true,
-    },
-    count: {
-      type: Number,
-      required: true,
-    },
-    per_page: {
-      type: String,
-      required: true,
-    },
-    api: {
-      type: Function,
-      required: true,
-    },
-  },
   data() {
     return {
       translateFields: ['wylie', 'sa2ru', 'sanscrit', 'tibetan', 'sa2en'],
       separator: '/',
       hiddenWordsId: [],
-      page: 1,
       terms: {},
+      count: 0,
+      per_page: 10,
     }
   },
   async fetch() {
     try {
-      const data = await this.api(
+      const data = await this.$api(
         'v1',
-        `translator/${this.username}/terms?page=${this.page}&per_page=10&order_by=wylie`,
+        `translator/${this.$route.params.username}/terms?page=${this.page}&per_page=${this.per_page}&order_by=wylie`,
       )
       this.terms = data.terms
+      this.count = +data.count
+      this.per_page = +data.per_page
     } catch (e) {
       throw new Error('Terms not found')
     }
   },
+  watch: {
+    '$route.query': '$fetch',
+  },
   methods: {
-    openPage(page) {
-      this.page = page
-      this.$fetch()
-    },
     toggleTranslete(id) {
       if (this.hiddenWordsId.some(item => id === item)) {
         this.hiddenWordsId = this.hiddenWordsId.filter(item => id !== item)
@@ -113,6 +97,14 @@ export default {
     },
     isWordOpen(id) {
       return !this.hiddenWordsId.some(item => id === item)
+    },
+  },
+  computed: {
+    page: {
+      cache: false,
+      get: function () {
+        return +this.$route.params.page || 1
+      },
     },
   },
 }

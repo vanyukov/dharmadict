@@ -36,9 +36,7 @@
         </svg>
       </NuxtLink>
       <h1 class="inline m-3 text-xl">
-        {{
-          `${data.translator.first_name} ${data.translator.middle} ${data.translator.last_name}`
-        }}
+        {{ `${about.first_name} ${about.middle_name} ${about.last_name}` }}
       </h1>
     </div>
 
@@ -57,9 +55,7 @@
           justify-center
           text-gray-600
         "
-        :class="
-          this.$route.name === 'translators-username' ? 'border-green-500' : ''
-        "
+        :class="this.currentTab === 'about' ? 'border-green-500' : ''"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -95,7 +91,7 @@
           justify-center
           text-gray-600
         "
-        :class="this.$route.name === 'terms' ? 'border-green-500' : ''"
+        :class="this.currentTab === 'term' ? 'border-green-500' : ''"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -114,18 +110,8 @@
         Термины
       </NuxtLink>
     </div>
-    <TranslatorTerms
-      v-if="this.$route.name === 'terms'"
-      :username="data.translator.username"
-      :count="data.count"
-      :per_page="'10'"
-      :api="$api"
-    />
-    <AboutTranslator
-      v-if="this.$route.name === 'translators-username'"
-      :translator="data.translator"
-      :about="about"
-    />
+    <AboutTranslator v-if="this.currentTab === 'about'" :about="about" />
+    <TranslatorTerms v-if="this.currentTab === 'term'" />
   </div>
 </template>
 
@@ -133,15 +119,9 @@
 export default {
   async asyncData({ params, $api, error }) {
     try {
-      const data = await $api(
-        'v1',
-        `translator/${params.username}/terms?page=1&per_page=1`,
-      )
+      const about = await $api('v1', `page/translators/${params.username}`)
 
-      const about = data.translator.page
-        ? await $api('v1', `page/${data.translator.page}`)
-        : { content: '' }
-      return { data, about }
+      return { about }
     } catch (e) {
       return error({
         statusCode: 404,
@@ -149,14 +129,35 @@ export default {
       })
     }
   },
+  computed: {
+    currentTab: {
+      cache: false,
+      get: function () {
+        if (
+          this.$route.name === 'translator-terms' ||
+          this.$route.name === 'translator-terms-page'
+        ) {
+          return 'term'
+        }
+
+        if (this.$route.name === 'translators-username') {
+          return 'about'
+        }
+
+        return ''
+      },
+    },
+  },
   head() {
     return {
-      title: `${this.data.translator.first_name} ${this.data.translator.last_name}`,
+      title: this.about.title,
       meta: [
         {
           hid: '',
           name: 'content',
-          content: `Словарь буддийской терминологии. Переводчик ${this.data.translator.first_name} ${this.data.translator.last_name}`,
+          description: this.about.description,
+          keywords: this.about.keywords,
+          content: `Словарь буддийской терминологии. Переводчик ${this.about.title}`,
         },
       ],
     }
