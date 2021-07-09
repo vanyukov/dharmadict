@@ -108,8 +108,8 @@ class Page(models.Model):
         return res
 
     def json(self):
-        u = CustomUser.objects.filter(page_id=self.id)
-        if u[0]:
+        us = CustomUser.objects.filter(page_id=self.id)
+        if len(us):
             res = {
                 'id': self.pk,
                 'created': str(self.created),
@@ -118,7 +118,7 @@ class Page(models.Model):
                 'modificator': self.modificator.pk if self.modificator else None,
                 'published': self.published,
                 'deleted': self.deleted,
-                'img': str(u[0].img),
+                'img': str(us[0].img),
 
                 'url': self.url,
                 'title': self.title,
