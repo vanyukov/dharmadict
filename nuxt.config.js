@@ -52,4 +52,28 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.push({
+        name: 'translator-terms',
+        path: '/translators/:username/terms',
+        component: resolve(__dirname, 'pages/translators/_username/index.vue'),
+        children: [
+          {
+            name: 'translator-terms-page',
+            path: ':page',
+            component: resolve(
+              __dirname,
+              'pages/translators/_username/index.vue',
+            ),
+          },
+        ],
+      })
+    },
+  },
+
+  generate: {
+    exclude: [/^\/translators\/\D+\/terms\/\d+/],
+  },
 }

@@ -3,58 +3,57 @@
     class="text-gray-600 w-full p-2 flex flex-col justify-center items-center"
   >
     <div class="flex flex-row no-wrap w-full justify-center items-center">
-      <button
-        type="button"
-        class="
-          py-2
-          px-3
-          m-1
-          focus:outline-none
-          bg-white
-          transition
-          duration-500
-          ease-in-out
-          transform
-          hover:-translate-y-0.5
-          hover:shadow-lg
-          rounded-sm
-          border
-          p-6
+      <NuxtLink
+        :to="
+          '/translators/' +
+          this.$route.params.username +
+          '/terms/' +
+          Math.max(1, this.page - 1)
         "
-        @click="changePage(-1)"
+        class="py-2 px-3 m-1 focus:outline-none bg-white rounded-sm border p-6"
+        v-bind:disabled="this.page <= 1"
       >
         Назад
-      </button>
+      </NuxtLink>
       <input
         type="range"
-        class="rounded-lg border-2 overflow-hidden appearance-none h-3 w-full cursor-pointer"
+        class="
+          rounded-lg
+          border-2
+          overflow-hidden
+          appearance-none
+          h-3
+          w-full
+          cursor-pointer
+          disabled:opacity-50
+        "
         v-model="slider"
         min="1"
-        :max="pages.length"
+        :max="numberOfPages"
         @change="sliderChange"
       />
-      <button
-        type="button"
-        @click="changePage(1)"
+      <NuxtLink
+        :to="
+          '/translators/' +
+          this.$route.params.username +
+          '/terms/' +
+          Math.min(numberOfPages, this.page + 1)
+        "
         class="
           py-2
           px-3
           m-1
           focus:outline-none
           bg-white
-          transition
-          duration-500
-          ease-in-out
-          transform
-          hover:-translate-y-0.5
-          hover:shadow-lg
           rounded-sm
           border
           p-6
+          disabled:opacity-50
         "
+        v-bind:disabled="this.page == numberOfPages"
       >
-        Вперёд
-      </button>
+        Вперед
+      </NuxtLink>
     </div>
     <output
       class="
@@ -69,7 +68,7 @@
         p-6
       "
     >
-      Страница {{ slider }} из {{ pages.length }}
+      Страница {{ slider }} из {{ numberOfPages }}
     </output>
   </div>
 </template>
@@ -82,65 +81,55 @@ export default {
       required: true,
     },
     per_page: {
-      type: String,
+      type: Number,
       required: true,
     },
-    openPage: {
-      type: Function,
-      required: true,
+    page: {
+      type: Number,
+      default: 1,
     },
   },
   data() {
     return {
-      posts: [''],
-      slider: '1',
-      page: 1,
-      pages: [],
+      slider: this.$route.params.page || 1,
     }
+  },
+  watch: {
+    '$route.query': 'updateSlider',
   },
   methods: {
     sliderChange() {
-      this.page = Number(this.slider)
-      this.openPage(this.page)
+      this.$router.push(
+        '/translators/' + this.$route.params.username + '/terms/' + this.slider,
+      )
     },
-    changePage(incr) {
-      if (this.page === 1 && incr === -1) {
-        return
-      } else if (this.page === this.pages.length && incr === 1) {
-        return
-      } else {
-        this.page = this.page + incr
-        this.slider = this.page
-        this.openPage(this.page)
-      }
-    },
-    setPages() {
-      let numberOfPages = Math.ceil(this.count / parseInt(this.per_page))
-      for (let index = 1; index <= numberOfPages; index++) {
-        this.pages.push(index)
-      }
+    updateSlider() {
+      this.slider = this.$route.params.page || 1
     },
   },
-  created() {
-    this.setPages()
+  computed: {
+    numberOfPages: {
+      cache: true,
+      get: function () {
+        return Math.ceil(this.count / parseInt(this.per_page))
+      },
+    },
   },
 }
 </script>
 
 <style scoped>
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
-     
-        input[type="range"]::-webkit-slider-thumb {
-            width: 15px;
-            -webkit-appearance: none;
-  			appearance: none;
-            height: 15px;
-            cursor: ew-resize;
-            background: #e5e7eb;
-            box-shadow: -405px 0 0 400px #10b981;
-            border-radius: 50%;
-            border: 1px solid #d1d5db;
-            
-        }
-    }
+  input[type='range']::-webkit-slider-thumb {
+    width: 15px;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 15px;
+    cursor: ew-resize;
+    background: #e5e7eb;
+    box-shadow: -405px 0 0 400px #10b981;
+    border-radius: 50%;
+    border: 1px solid #d1d5db;
+  }
+}
 </style>

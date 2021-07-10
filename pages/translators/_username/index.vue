@@ -1,15 +1,11 @@
 <template>
   <div>
     <div class="flex flex-row items-center">
-      <button
-        @click="goBack()"
+      <NuxtLink
+        to="/pages/translators"
         class="
-          transition
-          duration-500
           ease-in-out
           transform
-          hover:-translate-y-0.5
-          hover:shadow-lg
           text-white
           w-10
           h-10
@@ -38,16 +34,16 @@
             d="M10 19l-7-7m0 0l7-7m-7 7h18"
           />
         </svg>
-      </button>
+      </NuxtLink>
       <h1 class="inline m-3 text-xl">
-        {{
-          `${data.translator.first_name} ${data.translator.middle} ${data.translator.last_name}`
-        }}
+        {{ `${about.first_name} ${about.middle_name} ${about.last_name}` }}
       </h1>
     </div>
 
     <div class="flex flex-row flex-nowrap mt-6">
-      <button
+      <NuxtLink
+        :to="'/translators/' + this.$route.params.username"
+        prefetch
         class="
           flex-1
           p-3
@@ -59,8 +55,7 @@
           justify-center
           text-gray-600
         "
-        :class="tab === 'translator' ? 'border-green-500' : ''"
-        @click="setActive('translator')"
+        :class="this.currentTab === 'about' ? 'border-green-500' : ''"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -81,8 +76,10 @@
           />
         </svg>
         Переводчик
-      </button>
-      <button
+      </NuxtLink>
+      <NuxtLink
+        :to="'/translators/' + this.$route.params.username + '/terms'"
+        prefetch
         class="
           flex-1
           p-3
@@ -94,8 +91,7 @@
           justify-center
           text-gray-600
         "
-        :class="tab === 'terms' ? 'border-green-500' : ''"
-        @click="setActive('terms')"
+        :class="this.currentTab === 'term' ? 'border-green-500' : ''"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -112,16 +108,10 @@
           />
         </svg>
         Термины
-      </button>
+      </NuxtLink>
     </div>
-    <TranslatorTerms
-      v-if="tab === 'terms'"
-      :username="data.translator.username"
-      :count="data.count"
-      :per_page="'10'"
-      :api="$api"
-    />
-    <AboutTranslator v-else :translator="data.translator" :about="about" />
+    <AboutTranslator v-if="this.currentTab === 'about'" :about="about" />
+    <TranslatorTerms v-if="this.currentTab === 'term'" />
   </div>
 </template>
 
@@ -129,15 +119,9 @@
 export default {
   async asyncData({ params, $api, error }) {
     try {
-      const data = await $api(
-        'v1',
-        `translator/${params.username}/terms?page=1&per_page=1`,
-      )
+      const about = await $api('v1', `page/translators/${params.username}`)
 
-      const about = data.translator.page
-        ? await $api('v1', `page/${data.translator.page}`)
-        : { content: '' }
-      return { data, about }
+      return { about }
     } catch (e) {
       return error({
         statusCode: 404,
@@ -145,30 +129,38 @@ export default {
       })
     }
   },
+  computed: {
+    currentTab: {
+      cache: false,
+      get: function () {
+        if (
+          this.$route.name === 'translator-terms' ||
+          this.$route.name === 'translator-terms-page'
+        ) {
+          return 'term'
+        }
+
+        if (this.$route.name === 'translators-username') {
+          return 'about'
+        }
+
+        return ''
+      },
+    },
+  },
   head() {
     return {
-      title: `${this.data.translator.first_name} ${this.data.translator.last_name}`,
+      title: this.about.title,
       meta: [
         {
           hid: '',
           name: 'content',
-          content: `Словарь буддийской терминологии. Переводчик ${this.data.translator.first_name} ${this.data.translator.last_name}`,
+          description: this.about.description,
+          keywords: this.about.keywords,
+          content: `Словарь буддийской терминологии. Переводчик ${this.about.title}`,
         },
       ],
     }
-  },
-  data() {
-    return {
-      tab: 'translator',
-    }
-  },
-  methods: {
-    setActive(tab) {
-      this.tab = tab
-    },
-    goBack() {
-      this.$router.go(-2)
-    },
   },
 }
 </script>
