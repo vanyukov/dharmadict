@@ -65,7 +65,7 @@ class CustomUser(AbstractUser):
 class Page(models.Model):
     created = models.DateTimeField(auto_now_add=True, editable=False)
     creator = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, null=True, related_name='creator')
+        CustomUser, on_delete=models.CASCADE, null=True, blank=True, related_name='creator')
     modified = models.DateTimeField(null=True, blank=True)
     modificator = models.ForeignKey(
         CustomUser, null=True, blank=True, on_delete=models.CASCADE, related_name='modificator')
