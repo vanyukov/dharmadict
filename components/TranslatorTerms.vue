@@ -71,6 +71,7 @@ export default {
       per_page: 10,
     }
   },
+
   async fetch() {
     try {
       const data = await this.$api(
@@ -84,9 +85,19 @@ export default {
       throw new Error('Terms not found')
     }
   },
+
+  fetchOnServer: false,
+
+  key(route) {
+    return route.query.page
+  },
+
+  watchQuery: ['page'],
+
   watch: {
     '$route.query': '$fetch',
   },
+
   methods: {
     toggleTranslete(id) {
       if (this.hiddenWordsId.some(item => id === item)) {
@@ -99,11 +110,12 @@ export default {
       return !this.hiddenWordsId.some(item => id === item)
     },
   },
+
   computed: {
     page: {
       cache: false,
       get: function () {
-        return +this.$route.params.page || 1
+        return +this.$route.query.page || 1
       },
     },
   },
