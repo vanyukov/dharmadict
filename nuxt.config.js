@@ -59,21 +59,7 @@ export default {
         name: 'translator-terms',
         path: '/translators/:username/terms',
         component: resolve(__dirname, 'pages/translators/_username/index.vue'),
-        children: [
-          {
-            name: 'translator-terms-page',
-            path: ':page',
-            component: resolve(
-              __dirname,
-              'pages/translators/_username/index.vue',
-            ),
-          },
-        ],
       })
     },
-  },
-
-  generate: {
-    exclude: [/^\/translators\/\D+\/terms\/\d+/],
   },
 }

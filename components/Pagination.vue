@@ -7,7 +7,7 @@
         :to="
           '/translators/' +
           this.$route.params.username +
-          '/terms/' +
+          '/terms/?page=' +
           Math.max(1, this.page - 1)
         "
         class="py-2 px-3 m-1 focus:outline-none bg-white rounded-sm border p-6"
@@ -36,7 +36,7 @@
         :to="
           '/translators/' +
           this.$route.params.username +
-          '/terms/' +
+          '/terms/?page=' +
           Math.min(numberOfPages, this.page + 1)
         "
         class="
@@ -68,7 +68,7 @@
         p-6
       "
     >
-      Страница {{ slider }} из {{ numberOfPages }}
+      Страница {{ slider }} {{ numberOfPages ? ' из ' + numberOfPages : '' }}
     </output>
   </div>
 </template>
@@ -91,7 +91,7 @@ export default {
   },
   data() {
     return {
-      slider: this.$route.params.page || 1,
+      slider: this.$route.query.page || 1,
     }
   },
   watch: {
@@ -100,11 +100,14 @@ export default {
   methods: {
     sliderChange() {
       this.$router.push(
-        '/translators/' + this.$route.params.username + '/terms/' + this.slider,
+        '/translators/' +
+          this.$route.params.username +
+          '/terms/?page=' +
+          this.slider,
       )
     },
     updateSlider() {
-      this.slider = this.$route.params.page || 1
+      this.slider = this.$route.query.page || 1
     },
   },
   computed: {
