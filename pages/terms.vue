@@ -22,24 +22,53 @@
         v-bind:key="item.id"
       >
         <div class="word-title relative">
-          <template v-for="field of translateFields">
-            <span v-bind:key="field"
-              class="text-xl font-bold p-1"
-              v-if="item[field]"
+          <template v-for="(value, name) in translateFields">
+            <span
+              v-bind:key="name"
+              class="text-sm font-light pl-1"
+              v-if="item[name]"
             >
-              {{ item[field] }}
-              {{ separator }}
+              {{ value }}
             </span>
+            <span
+              v-bind:key="name"
+              class="text-xl font-bold pl-1"
+              v-if="item[name]"
+            >
+              {{ item[name] }}</span
+            ><span v-bind:key="name" v-if="item[name]" class="separator"
+              >,</span
+            >
           </template>
           <button
-            class="arrow arrow_open absolute text-xl font-bold p-1 justify-self-end border-2 rounded-md px-2"
+            class="
+              arrow arrow_open
+              absolute
+              text-xl
+              font-bold
+              p-1
+              justify-self-end
+              border-2
+              rounded-md
+              px-2
+            "
             @click="toggleTranslete(item.id)"
             v-if="isWordOpen(item.id)"
           >
             >
           </button>
           <button
-            class="arrow arrow_close absolute text-xl font-bold p-1 justify-self-end border-2 rounded-md px-2"
+            class="
+              arrow arrow_close
+              absolute
+              text-xl
+              font-bold
+              p-1
+              justify-self-end
+              border-2
+              rounded-md
+              px-2
+            "
             @click="toggleTranslete(item.id)"
             v-if="!isWordOpen(item.id)"
           >
@@ -53,8 +82,8 @@
             v-bind:key="meaning.id"
           >
             <div class="flex justify-between">
-              <span>{{ meaning.meaning }}</span>
-              <span class="ml-2 font-semibold">
+              <span class="font-semibold">{{ meaning.meaning }}</span>
+              <span>
                 {{ meaning.translator.first_name }}
                 {{ meaning.translator.last_name }}
               </span>
@@ -62,7 +91,7 @@
 
             <div v-for="(value, name) in meaningsFields" v-bind:key="name">
               <div class="flex flex-col mt-2" v-if="meaning[name]">
-                <p class="font-bold">{{ value }}:</p>
+                <p class="text-gray-500 font-light">{{ value }}:</p>
                 {{ meaning[name] }}
               </div>
             </div>
@@ -89,20 +118,29 @@
 .arrow_close {
   transform: rotate(90deg);
 }
+
+.separator:last-of-type {
+  display: none;
+}
 </style>
 
 <script>
 export default {
   data() {
     return {
-      translateFields: ['sa2ru', 'sanscrit', 'tibetan', 'wylie', 'sa2en'],
+      translateFields: {
+        sa2ru: 'санскр. рус.',
+        sanscrit: 'санскр',
+        tibetan: 'тиб',
+        wylie: 'wylie',
+        sa2en: 'санскр. англ.',
+      },
       meaningsFields: {
         comment: 'Комментарий',
         context: 'Контекст',
         interpretation: 'Интерпретация',
         rationale: 'Логическое обоснование',
       },
-      separator: '/',
       hiddenWordsId: [],
     }
   },
@@ -121,7 +159,7 @@ export default {
     }
   },
 
-  key(route) {   
+  key(route) {
     return route.query.search
   },
 
