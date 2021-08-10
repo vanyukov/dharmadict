@@ -5,14 +5,17 @@
 @layer base {
   h1 {
     @apply text-2xl;
+    margin-bottom: 8px;
   }
 
   h2 {
     @apply text-xl;
+    margin-bottom: 8px;
   }
 
   h3 {
     @apply text-lg;
+    margin-bottom: 8px;
   }
 
   a {
