@@ -83,10 +83,10 @@
           >
             <div class="flex justify-between">
               <span class="font-semibold">{{ meaning.meaning }}</span>
-              <span>
+              <NuxtLink :to="'/' + meaning.translator.page">
                 {{ meaning.translator.first_name }}
                 {{ meaning.translator.last_name }}
-              </span>
+              </NuxtLink>
             </div>
 
             <div v-for="(value, name) in meaningsFields" v-bind:key="name">
