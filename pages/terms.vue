@@ -141,7 +141,7 @@ export default {
         interpretation: 'Интерпретация',
         rationale: 'Логическое обоснование',
       },
-      hiddenWordsId: [],
+      openWordsId: [],
     }
   },
 
@@ -167,14 +167,14 @@ export default {
 
   methods: {
     toggleTranslete(id) {
-      if (this.hiddenWordsId.some(item => id === item)) {
-        this.hiddenWordsId = this.hiddenWordsId.filter(item => id !== item)
+      if (this.openWordsId.some(item => id === item)) {
+        this.openWordsId = this.openWordsId.filter(item => id !== item)
       } else {
-        this.hiddenWordsId.push(id)
+        this.openWordsId.push(id)
       }
     },
     isWordOpen(id) {
-      return !this.hiddenWordsId.some(item => id === item)
+      return this.openWordsId.some(item => id === item)
     },
 
     declOfNum(number, words) {
