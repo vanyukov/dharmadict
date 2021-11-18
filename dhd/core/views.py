@@ -119,7 +119,7 @@ def api_terms(request):
     
     res={}
     for t in t.qs:
-        if not t.wylie in res and not t.rank == 0:
+        if not t.wylie in res and t.rank >= 0.001:
             res[t.wylie] = []
             res[t.wylie].append(t.json(with_translator_info=True))
 
