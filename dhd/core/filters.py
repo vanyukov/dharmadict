@@ -1,4 +1,4 @@
-from django.contrib.postgres.search import SearchQuery
+from django.contrib.postgres.search import SearchQuery, SearchVector, SearchRank
 from django.db.models import Q
 from django.db.models.query import QuerySet
 from django.forms.fields import TypedMultipleChoiceField
@@ -29,22 +29,23 @@ class TermFilter(FilterSet):
         if value == "":
             return queryset.none()
         # qval = Q(wylie__istartswith=value) | Q(sa2ru1__istartswith=value) | Q(sa2en1__istartswith=value) | Q(sa2ru2__istartswith=value) | Q(sa2en2__istartswith=value) | Q(sa2ru3__istartswith=value) | Q(sa2en3__istartswith=value) | Q(tibetan__istartswith=value) | Q(sanscrit__istartswith=value)
-        qval = Q(wylie__iexact=value) | Q(sa2ru1__iexact=value) | Q(sa2en1__iexact=value) | Q(sa2ru2__iexact=value) | Q(sa2en2__iexact=value) | Q(sa2ru3__iexact=value) | Q(sa2en3__iexact=value) | Q(tibetan__iexact=value) | Q(sanscrit__iexact=value)
-            
-        return queryset.filter(qval)
+        # qval = Q(wylie__search=value) | Q(sa2ru1__search=value) | Q(sa2en1__search=value) | Q(sa2ru2__search=value) | Q(sa2en2__search=value) | Q(sa2ru3__search=value) | Q(sa2en3__search=value) | Q(tibetan__search=value) | Q(sanscrit__search=value)
+        vector = SearchVector('wylie', 'sa2ru1', 'sa2en1', 'sa2ru2', 'sa2en2', 'sa2ru3', 'sa2en3', 'tibetan', 'sanscrit')
+        query = SearchQuery(value)    
+        return queryset.annotate(rank=SearchRank(vector, query)).order_by('-rank')
 
     class Meta:
         model = Term
         fields = {
-            "wylie": ["icontains"],
-            "sa2ru1": ["icontains"],
-            "sa2en1": ["icontains"],
-            "sa2ru2": ["icontains"],
-            "sa2en2": ["icontains"],
-            "sa2ru3": ["icontains"],
-            "sa2en3": ["icontains"],
-            "tibetan": ["icontains"],
-            "sanscrit": ["icontains"],
+            "wylie": ["search"],
+            "sa2ru1": ["search"],
+            "sa2en1": ["search"],
+            "sa2ru2": ["search"],
+            "sa2en2": ["search"],
+            "sa2ru3": ["search"],
+            "sa2en3": ["search"],
+            "tibetan": ["search"],
+            "sanscrit": ["search"],
         }
 
 
@@ -63,13 +64,13 @@ class MeaningFilter(FilterSet):
             return queryset.none()
 #        qval = Q(meaning__icontains=value)
         # qval = Q(meaning__istartswith=value)
-        qval = Q(meaning__iexact=value)
+        qval = Q(meaning__search=value)
         return queryset.filter(qval)
 
     class Meta:
         model = Meaning
         fields = {
-            "meaning": ["iexact"],
+            "meaning": ["search"],
             # "meaning": ["icontains"],
         }
 

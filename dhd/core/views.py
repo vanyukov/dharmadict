@@ -104,7 +104,7 @@ def new_user(request):
     )
 
 def api_term(request, term):
-    t = Term.objects.filter(wylie__iexact=term)
+    t = Term.objects.filter(wylie__search=term)
     arr=[]
     for term in t.qs:
         arr.append(term.json())
@@ -119,7 +119,7 @@ def api_terms(request):
     
     res={}
     for t in t.qs:
-        if not t.wylie in res:
+        if not t.wylie in res and not t.rank == 0:
             res[t.wylie] = []
             res[t.wylie].append(t.json(with_translator_info=True))
 
