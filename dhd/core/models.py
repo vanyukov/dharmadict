@@ -238,6 +238,7 @@ class Term(models.Model):
             'sa2en': self.sa2en(),
             'sanscrit': self.sanscrit,
             'tibetan': self.tibetan,
+            'search_rank': self.rank,
         }
         res['meanings'] = []
         for m in self.meanings.all():
