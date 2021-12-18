@@ -25,7 +25,7 @@ SECRET_KEY = '1*s8&426mrgddwrwjaw2sr0=ybftngq2t!0*5rav2-0+mx8njx'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'dharmadict.ru']
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.postgres',
     'import_export',
     'core.apps.CoreConfig',
 ]
